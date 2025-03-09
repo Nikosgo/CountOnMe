@@ -8,8 +8,9 @@ import './styles.css';
 
 const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) => {
 
-    const datePickerOnChange: DatePickerProps['onChange'] = (date, dateString) => {
-        console.log(date, dateString);
+    const datePickerOnChange = (date, dateString) => {
+        console.log(date);
+        console.log(dateString);
     };
 
     const ModalStyles = {
