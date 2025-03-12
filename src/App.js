@@ -36,6 +36,16 @@ function App() {
         setIsIncomeModalOpen(false);
     };
 
+    const [isBudgetModalOpen, setIsBudgetModalOpen] = useState(false);
+    const showBudgetModal = () => {
+        setIsBudgetModalOpen(true);
+    };
+    const handleBudgetOk = () => {
+        setIsBudgetModalOpen(false);
+    };
+    const handleBudgetCancel = () => {
+        setIsBudgetModalOpen(false);
+    };
 
 
 
@@ -129,7 +139,6 @@ function App() {
 
 
 
-
   return (
     <div className="App">
         <header className="App-header">
@@ -155,6 +164,10 @@ function App() {
                 Add Income
             </Button>
 
+            <Button type="primary" onClick={showBudgetModal}>
+                Add Budget
+            </Button>
+
             <PopUpModal 
                 title="Expenses" 
                 isModalOpen={isExpenseModalOpen}
@@ -170,6 +183,15 @@ function App() {
                 handleCancel={handleIncomeCancel}
                 categories={incomeItems}
             />
+
+            <PopUpModal 
+                title="Budget" 
+                isModalOpen={isBudgetModalOpen}
+                handleOk={handleBudgetOk}
+                handleCancel={handleBudgetCancel}
+                categories={expenseItems}
+            />
+
         </div>
 
 

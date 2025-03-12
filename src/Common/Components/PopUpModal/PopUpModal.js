@@ -8,6 +8,8 @@ import './styles.css';
 
 const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) => {
 
+    const lowercaseTitle = title.toLowerCase();
+
     const datePickerOnChange = (date, dateString) => {
         console.log(date);
         console.log(dateString);
@@ -95,10 +97,44 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
         }
     }
 
+
+    const budgetTheme = {
+        token: {
+            fontFamily:'Arial',
+            colorTextBase:'#3891a6',
+        },
+        components: {
+            Modal: {
+                titleColor: '#3891a6',
+                titleFontSize: '30px',
+            },
+            DatePicker: {
+                activeBorderColor: 'rgb(56, 145, 166)',
+                activeShadow: 'rgb(56, 145, 166)',
+            },
+            Select: {
+                activeBorderColor: 'rgb(56, 145, 166)',
+                optionFontSize: '15px',
+                optionSelectedFontWeight: '600',
+                optionSelectedBg: 'rgb(56, 145, 166, 0.3)',
+            },
+            InputNumber: {
+                handleFontSize: '10px',
+                inputFontSize:'18px',
+                paddingInline: '10px',
+            },
+            Input: {
+                activeShadow: 'rgb(56, 145, 166, 0)'
+            }
+        }
+    }
+
+
+
     return (
 
         <ConfigProvider
-            theme={title.toLowerCase() === 'expenses' ? expenseTheme : incomeTheme}
+            theme={lowercaseTitle === 'expenses' ? expenseTheme : lowercaseTitle === 'income' ? incomeTheme : budgetTheme}
         >
                 <Modal 
                     title={title} 
@@ -107,11 +143,16 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
                     onCancel={handleCancel}
                     centered
                     width={'80%'}
-                    okText={'+ add ' + title.toLowerCase()}
+                    okText={'+ add ' + lowercaseTitle}
                     styles={ModalStyles}
                     okButtonProps={{
                         style: {
-                            backgroundColor: title.toLowerCase() === 'expenses' ? expenseTheme.token.colorTextBase : incomeTheme.token.colorTextBase,
+                            backgroundColor: lowercaseTitle === 'expenses' ? 
+                                expenseTheme.token.colorTextBase : 
+                                lowercaseTitle === 'income' ?
+                                    incomeTheme.token.colorTextBase :
+                                    budgetTheme.token.colorTextBase
+                            ,
                             letterSpacing: '3px',
                             fontWeight: 'bold',
                             fontSize: '20px',
@@ -141,10 +182,16 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
                             className={'custom-font-size'}
                             style={{
                                 width: '55%',
-                                color: title.toLowerCase() === 'expenses' ? expenseTheme.token.colorTextBase : incomeTheme.token.colorTextBase,
+                                color: lowercaseTitle === 'expenses' ? 
+                                    expenseTheme.token.colorTextBase : 
+                                    lowercaseTitle === 'income' ?
+                                        incomeTheme.token.colorTextBase :
+                                        budgetTheme.token.colorTextBase
+                                ,
                                 backgroundColor: '#fff',
                                 letterSpacing: '3px',
-                                fontSize: '18px'
+                                fontSize: '18px',
+                                display: lowercaseTitle === 'budget' ? 'none' : 'block'
                             }}
                         />
 
@@ -190,11 +237,12 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
                         size={'Large'}
                         className={'custom-font-size'}
                         style={{
-                        width: '100%',
-                        border: '2px solid #e9ebf0',
-                        borderRadius: '5px',
-                        fontSize: '18px',
-                    }}
+                            width: '100%',
+                            border: '2px solid #e9ebf0',
+                            borderRadius: '5px',
+                            fontSize: '18px',
+                            display: lowercaseTitle === 'budget' ? 'none' : 'block'
+                        }}
                     />
                 </Flex>
                 
