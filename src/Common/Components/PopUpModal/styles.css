@@ -1,0 +1,9 @@
+.custom-font-size .ant-picker-input input, .ant-picker,
+.custom-font-size .ant-select-selector, .ant-select, 
+.custom-font-size .ant-input, .ant-input,
+.custom-font-size .ant-input-number input
+{
+    font-size: 18px;
+    height: 50px;
+    letter-spacing: 0.5px;
+}

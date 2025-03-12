@@ -1,0 +1,16 @@
+:root{
+    --THEME_EXPENSE_RED: #ef2917;
+    --THEME_INCOME_GREEN: #008148;
+    --THEME_BACKGROUND_WHITE: #e9ebf0;
+    --THEME_BUDGET_BLUE: #3891a6;
+}
+
+.popupModal-icon-style {
+    padding-right: 10px;
+    vertical-align: middle;
+}
+
+.popupModal-icon-label-style {
+    vertical-align: middle;
+    font-size: 17px;
+}
