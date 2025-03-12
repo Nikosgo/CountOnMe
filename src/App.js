@@ -9,6 +9,7 @@ import { IoFastFoodOutline, IoGameControllerOutline, IoTrainOutline } from 'reac
 import { PiMoney } from "react-icons/pi";
 import { TbPigMoney } from "react-icons/tb";
 import { RiStockLine } from "react-icons/ri";
+import Header from "./Common/Components/Header/Header";
 
 
 function App() {
@@ -141,6 +142,9 @@ function App() {
 
   return (
     <div className="App">
+
+        <Header />
+
         <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
             <p>

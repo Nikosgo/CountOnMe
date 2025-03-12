@@ -1,0 +1,60 @@
+.background {
+    background-color: #e9ebf0;
+}
+
+.header {  
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(2, 44, 59, 0.1);
+}
+
+li {
+    display: block;
+    color: #022c3b;
+    text-align: center;
+    padding: 20px;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+li a {
+    display: block;
+    color: #022c3b;
+    text-decoration: none;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.logoStyle {
+    padding: 10px 0 10px 20px;
+    width: auto;
+    height: 50px;
+}
+
+.logoDiv {
+    padding: 0;
+}
+
+.logoName {
+    font-size: 30px;
+}
+
+.iconExchangeStyle {
+    width: auto;
+    height: 33px;
+}
+
+.iconProfileStyle{
+    width: auto;
+    height: 35px;
+}
