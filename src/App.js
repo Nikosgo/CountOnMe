@@ -11,6 +11,8 @@ import { TbPigMoney } from "react-icons/tb";
 import { RiStockLine } from "react-icons/ri";
 import Header from "./Common/Components/Header/Header";
 
+import DisplayBudget from "./Common/Components/Budget/DisplayBudget.tsx";
+
 
 function App() {
 
@@ -195,6 +197,10 @@ function App() {
                 handleCancel={handleBudgetCancel}
                 categories={expenseItems}
             />
+
+        </div>
+        <div className="budget-container">
+            <DisplayBudget />
 
         </div>
 

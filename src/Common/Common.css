@@ -14,3 +14,10 @@
     vertical-align: middle;
     font-size: 17px;
 }
+
+.budget-container {
+    position: relative;
+    bottom: 20px;
+    left: 20px;
+  }
+  
