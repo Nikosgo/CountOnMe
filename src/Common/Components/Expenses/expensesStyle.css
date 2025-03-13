@@ -1,0 +1,97 @@
+/* Main expenses Card */
+.expenses-card {
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  min-height: 500px;
+  background-color: #d4eaf7; /* Light blue background */
+  padding: 20px;
+  border-radius: 15px;
+  font-family: "Arial", sans-serif;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* expenses Title */
+.expenses-title {
+  font-size: 30px;
+  font-weight: bold;
+  color: #3480c1; /* Blue text */
+  margin-top: 20px;  /* Add more space above the title */
+  margin-bottom: 10px;
+  line-height: 3;  /* Slightly increase line height for more breathing room */
+  text-align: left;
+}
+
+/* Each "item" block for a category row + optional warning text */
+.expenses-item {
+  margin-bottom: 20px; /* Spacing between items */
+}
+
+/* The top row that has icon, category, and amount aligned horizontally */
+.expenses-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Category Icon */
+.expenses-icon {
+  font-size: 1.4rem;
+  margin-right: 8px;
+}
+
+/* Category Text */
+.expenses-category {
+  font-size: 16px;
+  font-weight: bold;
+  /* text-transform: lowercase; */
+  margin-right: auto;
+}
+
+/* expenses Amount */
+.expenses-amount {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Safe category color (food) */
+.safe {
+  color: #2e8b57;
+}
+.safe-amount {
+  color: #2e8b57;
+}
+
+/* Warning category color (games) */
+.warning {
+  color: red;
+}
+.warning-amount {
+  color: red;
+}
+
+/* Warning message below the row */
+.expenses-warning {
+  margin-right: 400px;
+  margin-top: 5px;
+  font-size: 12px;
+  color: red;
+  line-height: 1.2;
+}
+
+/* Add expenses Button at the bottom */
+.add-expenses-btn {
+  width: 100%;
+  background-color: #3480c1 !important;
+  color: white !important;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  margin-top: auto;
+  padding: 10px 0;
+  border: none;
+}
+
+.add-expenses-btn:hover {
+  background-color: #286ca1 !important;
+}
