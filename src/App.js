@@ -3,13 +3,13 @@ import logo from './logo.svg';
 import './App.css';
 import './Common/Common.css';
 import { Button } from 'antd';
-import PopUpModal from './Common/Components/PopUpModal/PopUpModal.js'
+import PopUpModal from './Common/Components/PopUpModal/PopUpModal.tsx'
 
 import { IoFastFoodOutline, IoGameControllerOutline, IoTrainOutline } from 'react-icons/io5';
 import { PiMoney } from "react-icons/pi";
 import { TbPigMoney } from "react-icons/tb";
 import { RiStockLine } from "react-icons/ri";
-import Header from "./Common/Components/Header/Header";
+import Header from "./Common/Components/Header/Header.tsx";
 
 import DisplayBudget from "./Common/Components/Budget/DisplayBudget.tsx";
 

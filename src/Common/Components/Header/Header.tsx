@@ -1,30 +1,29 @@
 import React from 'react';
 import './styles.css';
-import CountOnMeIcon from './CountOnMeIcon.png'
+import CountOnMeIcon from './CountOnMeIcon.png';
 import { MdCurrencyExchange } from "react-icons/md";
 import { RiAccountCircleLine } from "react-icons/ri";
 
-const Header = () => {
-
+const Header: React.FC = () => {
     return (
-        <div class="background">
-            <ul class="header">
-                <li class="logoDiv left">
+        <div className="background">
+            <ul className="header">
+                <li className="logoDiv left">
                     <a href="#landing">
-                        <img src={CountOnMeIcon} alt="CountOnMelogo" class="logoStyle"/>
+                        <img src={CountOnMeIcon} alt="CountOnMe logo" className="logoStyle"/>
                     </a>
                 </li>
-                <li class="left logoName">
-                     <a href="#landing">
+                <li className="left logoName">
+                    <a href="#landing">
                         Count On Me
                     </a>
                 </li>
-                <li class="right">
+                <li className="right">
                     <a href="#profile">
                         <RiAccountCircleLine className="iconProfileStyle" />        
                     </a>
                 </li>
-                <li class="right">
+                <li className="right">
                     <a href="#exchange">
                         <MdCurrencyExchange className="iconExchangeStyle"/>
                     </a>
@@ -32,7 +31,6 @@ const Header = () => {
             </ul>
         </div>
     );
-
 }
 
 export default Header;
