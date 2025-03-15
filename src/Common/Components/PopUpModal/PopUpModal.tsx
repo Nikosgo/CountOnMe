@@ -3,7 +3,6 @@ import { Modal, DatePicker, Select, ConfigProvider, Flex, Input, InputNumber } f
 import dayjs from 'dayjs';
 
 import '../../../Common/Common.css';
-import './styles.css';
 
 
 const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) => {
@@ -17,7 +16,7 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
 
     const ModalStyles = {
         header: {
-            textAlign: 'center',
+            textAlign: 'center' as const,
             fontFamily: 'Arial',
             backgroundColor: '#e9ebf0',
             marginBottom:'20px'
@@ -42,7 +41,7 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
         components: {
             Modal: {
                 titleColor: '#ef2917',
-                titleFontSize: '30px',
+                titleFontSize: 30,
             },
             DatePicker: {
                 activeBorderColor: 'rgb(239, 41, 23)',
@@ -50,14 +49,14 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
             },
             Select: {
                 activeBorderColor: 'rgb(239, 41, 23)',
-                optionFontSize: '15px',
-                optionSelectedFontWeight: '600',
+                optionFontSize: 15,
+                optionSelectedFontWeight: 600,
                 optionSelectedBg: 'rgb(239, 41, 23, 0.3)',
             },
             InputNumber: {
-                handleFontSize: '10px',
-                inputFontSize:'18px',
-                paddingInline: '10px',
+                handleFontSize: 10,
+                inputFontSize: 18,
+                paddingInline: 10,
             },
             Input: {
                 activeShadow: 'rgb(239, 41, 23, 0)'
@@ -74,7 +73,7 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
         components: {
             Modal: {
                 titleColor: '#008148',
-                titleFontSize: '30px',
+                titleFontSize: 30,
             },
             DatePicker: {
                 activeBorderColor: 'rgb(0, 129, 72)',
@@ -82,14 +81,14 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
             },
             Select: {
                 activeBorderColor: 'rgb(0, 129, 72)',
-                optionFontSize: '15px',
-                optionSelectedFontWeight: '600',
+                optionFontSize: 15,
+                optionSelectedFontWeight: 600,
                 optionSelectedBg: 'rgb(0, 129, 72, 0.3)',
             },
             InputNumber: {
-                handleFontSize: '10px',
-                inputFontSize:'18px',
-                paddingInline: '10px',
+                handleFontSize: 10,
+                inputFontSize: 18,
+                paddingInline: 10,
             },
             Input: {
                 activeShadow: 'rgb(0, 129, 72, 0)'
@@ -106,7 +105,7 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
         components: {
             Modal: {
                 titleColor: '#3891a6',
-                titleFontSize: '30px',
+                titleFontSize: 30,
             },
             DatePicker: {
                 activeBorderColor: 'rgb(56, 145, 166)',
@@ -114,19 +113,19 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
             },
             Select: {
                 activeBorderColor: 'rgb(56, 145, 166)',
-                optionFontSize: '15px',
-                optionSelectedFontWeight: '600',
+                optionFontSize: 15,
+                optionSelectedFontWeight: 600,
                 optionSelectedBg: 'rgb(56, 145, 166, 0.3)',
             },
             InputNumber: {
-                handleFontSize: '10px',
-                inputFontSize:'18px',
-                paddingInline: '10px',
+                handleFontSize: 10,
+                inputFontSize: 18,
+                paddingInline: 10,
             },
             Input: {
                 activeShadow: 'rgb(56, 145, 166, 0)'
             }
-        }
+        }    
     }
 
 
@@ -174,10 +173,10 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
                     >
                         <DatePicker 
                             onChange={datePickerOnChange} 
-                            size={'Large'}
+                            size={'large'}
                             placeholder={'Date'}
                             format={'DD MMMM YYYY'}
-                            variant={"Borderless"}
+                            variant={"borderless"}
                             defaultValue={dayjs()}
                             className={'custom-font-size'}
                             style={{
@@ -199,9 +198,9 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
                         <Select 
                             allowClear={true}
                             options={categories}
-                            size={'Large'}
+                            size={'large'}
                             placeholder={"Category"}
-                            variant={"Borderless"}
+                            variant={"borderless"}
                             className={'custom-font-size'}
                             style={{
                                 width: '70%',
@@ -218,14 +217,13 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
 
                         <InputNumber
                             prefix='$'
-                            size={'Large'}
-                            variant={"Borderless"}
+                            size={'large'}
+                            variant={"borderless"}
                             className={'custom-font-size'}
                             style={{
                                 width: '65%',
                                 backgroundColor: '#fff',
                                 borderRadius: '5px',
-                                align: 'right',
                                 margin:'5px',
                                 fontSize: '18px',
                             }}
@@ -234,7 +232,7 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
             
                     <Input
                         placeholder='Description' 
-                        size={'Large'}
+                        size={'large'}
                         className={'custom-font-size'}
                         style={{
                             width: '100%',
