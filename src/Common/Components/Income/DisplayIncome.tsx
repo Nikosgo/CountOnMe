@@ -6,7 +6,7 @@ import Item from "../Parts/Item.tsx";
 
 const DisplayExpenses: React.FC = (props: any) => {
     return (
-        <Card className="expense-income-panel income-panel" bordered={false}>
+        <Card className="expense-income-panel income-panel" loading={props.isLoading} bordered={false}>
             <h2 className="income-panel-title">Income</h2>
             <div className="category-container">
                 {props.data.map((item, index) => (
