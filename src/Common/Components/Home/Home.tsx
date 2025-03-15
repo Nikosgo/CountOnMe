@@ -4,8 +4,11 @@ import { IoFastFoodOutline, IoGameControllerOutline, IoTrainOutline } from 'reac
 import { PiMoney } from "react-icons/pi";
 import { TbPigMoney } from "react-icons/tb";
 import { RiStockLine } from "react-icons/ri";
-import Header from '../Header/Header.tsx';
 import { Button } from 'antd';
+
+import '../../../Common/Common.css';
+
+import Header from '../Header/Header.tsx';
 import PopUpModal from '../PopUpModal/PopUpModal.tsx';
 import DisplayBudget from '../Budget/DisplayBudget.tsx';
 
