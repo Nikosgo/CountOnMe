@@ -19,12 +19,12 @@
 }
 
 /* Title Styling */
-.expense-panel-title {
+.income-panel-title {
   font-size: 1.5rem;
   font-weight: bold;
   text-align: left;
   margin-bottom: 15px;
-  color: #c82333; /* Red */
+  color: #218838; /* Green */
 }
 
 /* Flexbox container for categories */
@@ -35,13 +35,13 @@
 }
 
 /* Button Styling */
-.expense-add-btn {
+.income-add-btn {
   width: 100%;
   margin-top: 10px;
   font-size: 1.1rem;
   font-weight: bold;
   border-radius: 6px;
-  background-color: #c82333; /* Red */
+  background-color: #218838;
 }
 
 /* 🌍 Media Queries for Different Screen Sizes */
@@ -51,7 +51,7 @@
     padding: 15px;
   }
 
-  .expense-panel-title {
+  .income-panel-title {
     font-size: 1.3rem;
   }
 }

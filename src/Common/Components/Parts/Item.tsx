@@ -1,17 +1,13 @@
 import React from "react";
 import { Card, Row, Col } from 'antd';
+import "./itemStyle.css"
 
 const Item = (props: any) => {
 
     return (
-        <Card
-            title={props.itemName}
-            variant="borderless"
-            style={{
-                width: 150, margin: 100
-            }}
-        >
-            <p>{props.price}</p>
+        <Card className={`${props.category}-category-card`}>
+          <p>{props.itemCategory}</p>
+          <p className="amount">${props.price}</p>
         </Card>
     );
 }

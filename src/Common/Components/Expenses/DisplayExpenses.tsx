@@ -1,21 +1,22 @@
 import React from "react";
-import { Card, Row, Col } from 'antd';
+import { Card, Button } from 'antd';
 import "./expensesStyle.css";
 import Item from "../Parts/Item.tsx";
 
 
 const DisplayExpenses: React.FC = (props: any) => {
     return (
-        <Card title="Expenses" loading={props.isLoading} variant="borderless" style={{ width: 600 }} headStyle={{ backgroundColor: '#f3c8c8', color: '#ffffff' }} bodyStyle={{ backgroundColor: '#f3c8c8' }}>
-            <Row gutter={100}>
+        <Card className="expense-income-panel expense-panel" bordered={false}>
+            <h2 className="expense-panel-title">Expenses</h2>
+            <div className="category-container">
                 {props.data.map((item, index) => (
-                    <Col span={4}>
-                        <Item key={index} itemName={item.value} price={item.price} />
-                    </Col>
+                    <Item key={index} itemCategory={item.label} price={item.price} category="expense"/>
                 ))}
-            </Row>
+            </div>
+            <Button type="primary" className="expense-add-btn" block>
+                + Add Expenses
+            </Button>
         </Card>
-
     );
 };
 

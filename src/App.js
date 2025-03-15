@@ -208,15 +208,9 @@ function App() {
                 />
 
             </div>
-            <div className="budget-container">
-                <Row gutter={100}>
-                    <Col span={25}>
-                        <DisplayExpenses isLoading={isExpenseLoading} data={expenseItems} />
-                    </Col>
-                    <Col span={25}>
-                        <DisplayIncome isLoading={isIncomeLoading} data={incomeItems} />
-                    </Col>
-                </Row>
+            <div className="expenses-income-container">
+                <DisplayExpenses isLoading={isExpenseLoading} data={expenseItems} />
+                <DisplayIncome isLoading={isIncomeLoading} data={incomeItems} />
             </div>
             <div className="budget-container">
                 <DisplayBudget />

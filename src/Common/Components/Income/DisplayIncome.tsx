@@ -1,22 +1,23 @@
 import React from "react";
-import { Card, Row, Col } from 'antd';
-import { IoGameControllerOutline, IoFastFoodOutline } from "react-icons/io5";
+import { Card, Button } from 'antd';
+import "./incomeStyle.css";
 import Item from "../Parts/Item.tsx";
 
 
-const DisplayIncome: React.FC = (props:any) => {
+const DisplayExpenses: React.FC = (props: any) => {
     return (
-        <Card title="Income" loading={props.isLoading} variant="borderless" style={{ width: 600 }} headStyle={{ backgroundColor: '#c8f3cd', color: '#ffffff' }} bodyStyle={{ backgroundColor: '#c8f3cd' }}>
-            <Row gutter={100}>
+        <Card className="expense-income-panel income-panel" bordered={false}>
+            <h2 className="income-panel-title">Income</h2>
+            <div className="category-container">
                 {props.data.map((item, index) => (
-                    <Col span={4}>
-                        <Item key={index} itemName={item.value} price={item.price} />
-                    </Col>
+                    <Item key={index} itemCategory={item.label} price={item.price}  category="income"/>
                 ))}
-            </Row>
+            </div>
+            <Button type="primary" className="income-add-btn" block>
+                + Add income
+            </Button>
         </Card>
-
     );
 };
 
-export default DisplayIncome;
+export default DisplayExpenses;
