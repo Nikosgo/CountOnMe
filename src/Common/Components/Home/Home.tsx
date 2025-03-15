@@ -51,94 +51,102 @@ const Home: React.FC = () => {
         setIsBudgetModalOpen(false);
     };
 
+    const [isExpenseLoading, setIsExpenseLoading] = useState(false);
+    const [isIncomeLoading, setIsIncomeLoading] = useState(false);
 
-        // expense items
-        const expenseItems = [
-            {
-                value: 'Food',
-                label: (
-                    <span>
-                        <IoFastFoodOutline 
-                            size={'1.5em'}
-                            title={'Food'}
-                            className='popupModal-icon-style'
-                        /> 
+    // expense items
+    const expenseItems = [
+        {
+            value: 'Food',
+            label: (
+                <span>
+                    <IoFastFoodOutline
+                        size={'1.5em'}
+                        title={'Food'}
+                        className='popupModal-icon-style'
+                    />
                     <span class="popupModal-icon-label-style">Food</span>
-                    </span>
-                    
-                )
-            },
-            {
-                value: 'Play',
-                label: (
-                    <span>
-                        <IoGameControllerOutline 
-                            size={'1.5em'}
-                            title={'Play'}
-                            className='popupModal-icon-style'
-                        />
-                        <span class="popupModal-icon-label-style">Play</span>
-                    </span>
-                )
-            },
-            {
-                value: 'Transport',
-                label: (
-                    <span>
-                        <IoTrainOutline 
-                            size={'1.5em'}
-                            title={'Transport'}
-                            className='popupModal-icon-style'
-                        />
-                        <span class="popupModal-icon-label-style">Transport</span>
-                    </span>
-                )
-            }
-        ]
-    
-        // income items
-        const incomeItems = [
-            {
-                value: 'Salary',
-                label: (
-                    <span>
-                        <PiMoney 
-                            size={'1.5em'}
-                            title={'Salary'}
-                            className='popupModal-icon-style'
-                        /> 
+                </span>
+
+            ),
+            price: 100
+        },
+        {
+            value: 'Play',
+            label: (
+                <span>
+                    <IoGameControllerOutline
+                        size={'1.5em'}
+                        title={'Play'}
+                        className='popupModal-icon-style'
+                    />
+                    <span class="popupModal-icon-label-style">Play</span>
+                </span>
+            ),
+            price: 50
+        },
+        {
+            value: 'Transport',
+            label: (
+                <span>
+                    <IoTrainOutline
+                        size={'1.5em'}
+                        title={'Transport'}
+                        className='popupModal-icon-style'
+                    />
+                    <span class="popupModal-icon-label-style">Transport</span>
+                </span>
+            ),
+            price: 25
+        }
+    ]
+
+    // income items
+    const incomeItems = [
+        {
+            value: 'Salary',
+            label: (
+                <span>
+                    <PiMoney
+                        size={'1.5em'}
+                        title={'Salary'}
+                        className='popupModal-icon-style'
+                    />
                     <span class="popupModal-icon-label-style">Salary</span>
-                    </span>
-                    
-                )
-            },
-            {
-                value: 'Savings',
-                label: (
-                    <span>
-                        <TbPigMoney 
-                            size={'1.5em'}
-                            title={'Savings'}
-                            className='popupModal-icon-style'
-                        />
-                        <span class="popupModal-icon-label-style">Savings</span>
-                    </span>
-                )
-            },
-            {
-                value: 'Investments',
-                label: (
-                    <span>
-                        <RiStockLine 
-                            size={'1.5em'}
-                            title={'Investments'}
-                            className='popupModal-icon-style'
-                        />
-                        <span class="popupModal-icon-label-style">Investments</span>
-                    </span>
-                )
-            }
-        ]
+                </span>
+
+            ),
+            price: 100
+        },
+        {
+            value: 'Savings',
+            label: (
+                <span>
+                    <TbPigMoney
+                        size={'1.5em'}
+                        title={'Savings'}
+                        className='popupModal-icon-style'
+                    />
+                    <span class="popupModal-icon-label-style">Savings</span>
+                </span>
+            ),
+            price: 1000
+        },
+        {
+            value: 'Investments',
+            label: (
+                <span>
+                    <RiStockLine
+                        size={'1.5em'}
+                        title={'Investments'}
+                        className='popupModal-icon-style'
+                    />
+                    <span class="popupModal-icon-label-style">Investments</span>
+                </span>
+            ),
+            price: 10000
+        }
+    ]
     
 
     return (
@@ -185,8 +193,8 @@ const Home: React.FC = () => {
 
             </div>
             <div className="expenses-income-container">
-                <DisplayExpenses  data={expenseItems} />
-                <DisplayIncome  data={incomeItems} />
+                <DisplayExpenses isLoading={isExpenseLoading} data={expenseItems} />
+                <DisplayIncome isLoading={isIncomeLoading} data={incomeItems} />
             </div>
             <div className="budget-container">
                 <DisplayBudget />

@@ -36,18 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-.expenses-income-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  max-width: 2000px;
-  margin: 0 auto;
-  flex-wrap: wrap; /* Allows wrapping for smaller screens */
-}
-
-@media (max-width: 768px) {
-  .expenses-income-container {
-    flex-direction: column; /* Stack panels on small screens */
-  }
-}
