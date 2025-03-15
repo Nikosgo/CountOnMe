@@ -19,7 +19,7 @@ const Header: React.FC = () => {
                     </a>
                 </li>
                 <li className="right">
-                    <a href="#profile">
+                    <a href="/profile">
                         <RiAccountCircleLine className="iconProfileStyle" />        
                     </a>
                 </li>
