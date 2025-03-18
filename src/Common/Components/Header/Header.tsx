@@ -23,15 +23,22 @@ const Header: React.FC = () => {
                 </li>
                 <li className="right">
                     <Link to="/profile">
-                        { location.pathname === '/profile' ? 
-                            <RiAccountCircleLine className="iconProfileStyle iconfilled" />
-                            : <RiAccountCircleLine className="iconProfileStyle" />        
-                    }
+                        { location.pathname === "/" ?
+                            <RiAccountCircleLine style={{display:'none'}} /> 
+                            : location.pathname === '/profile' ? 
+                                <RiAccountCircleLine className="iconProfileStyle iconfilled" />
+                                : <RiAccountCircleLine className="iconProfileStyle" />        
+                        }
                     </Link>
                 </li>
                 <li className="right">
                     <Link to="/">
-                        <MdCurrencyExchange className="iconExchangeStyle"/>
+                        {
+                            location.pathname === "/" ?
+                            <MdCurrencyExchange style={{display:'none'}} /> 
+                            : <MdCurrencyExchange className="iconExchangeStyle"/>
+                        }
+                        
                     </Link>
                 </li>
             </ul>
