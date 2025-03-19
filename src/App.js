@@ -6,7 +6,6 @@ import Profile from "../src/Common/Components/Profile/Profile.tsx"
 import Login from "../src/Common/Components/Login/Login.tsx"
 
 function App() {
-
   return (
     <Router>
         <Routes>

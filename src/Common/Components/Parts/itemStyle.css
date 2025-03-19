@@ -1,0 +1,55 @@
+.category-card {
+    width: 25%;
+    text-align: center;
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.category-card:hover {
+    transform: scale(1.05);
+}
+
+/* Text Styling */
+.category-card p {
+    margin: 5px 0;
+    font-size: 1rem;
+}
+
+.amount {
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .category-card {
+        width: 100%;
+        /* Full width for smaller screens */
+    }
+
+    .amount {
+        font-size: 1.2rem;
+    }
+}
+
+.income-category-card {
+    background-color: #eaf7ec;
+}
+
+.income-category-card > .ant-card-body > .amount {
+    color: #218838;
+    /* Green */
+}
+
+.expense-category-card {
+    background-color: #fdecee;
+}
+
+.expense-category-card > .ant-card-body > .amount{
+    color: #c82333;
+    /* Red */
+}

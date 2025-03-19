@@ -11,6 +11,9 @@ import '../../../Common/Common.css';
 import Header from '../Header/Header.tsx';
 import PopUpModal from '../PopUpModal/PopUpModal.tsx';
 import DisplayBudget from '../Budget/DisplayBudget.tsx';
+import DisplayExpenses from '../Expenses/DisplayExpenses.tsx';
+import DisplayIncome from '../Income/DisplayIncome.tsx';
+import DisplayTransactionTable from '../Transaction/TransactionTable.tsx'
 
 const Home: React.FC = () => {
 
@@ -49,94 +52,183 @@ const Home: React.FC = () => {
         setIsBudgetModalOpen(false);
     };
 
+    const [isExpenseLoading, setIsExpenseLoading] = useState(false);
+    const [isIncomeLoading, setIsIncomeLoading] = useState(false);
+    const [transactionHistoryRange, setTransactionHistoryRange] = useState('Today');
+    const onTransactionHistoryRangeChange = (key: string) => {
+        setTransactionHistoryRange(key);
+    };
 
-        // expense items
-        const expenseItems = [
-            {
-                value: 'Food',
-                label: (
-                    <span>
-                        <IoFastFoodOutline 
-                            size={'1.5em'}
-                            title={'Food'}
-                            className='popupModal-icon-style'
-                        /> 
+    // expense items
+    const expenseItems = [
+        {
+            value: 'Food',
+            label: (
+                <span>
+                    <IoFastFoodOutline
+                        size={'1.5em'}
+                        title={'Food'}
+                        className='popupModal-icon-style'
+                    />
                     <span class="popupModal-icon-label-style">Food</span>
-                    </span>
-                    
-                )
-            },
-            {
-                value: 'Play',
-                label: (
-                    <span>
-                        <IoGameControllerOutline 
-                            size={'1.5em'}
-                            title={'Play'}
-                            className='popupModal-icon-style'
-                        />
-                        <span class="popupModal-icon-label-style">Play</span>
-                    </span>
-                )
-            },
-            {
-                value: 'Transport',
-                label: (
-                    <span>
-                        <IoTrainOutline 
-                            size={'1.5em'}
-                            title={'Transport'}
-                            className='popupModal-icon-style'
-                        />
-                        <span class="popupModal-icon-label-style">Transport</span>
-                    </span>
-                )
-            }
-        ]
-    
-        // income items
-        const incomeItems = [
-            {
-                value: 'Salary',
-                label: (
-                    <span>
-                        <PiMoney 
-                            size={'1.5em'}
-                            title={'Salary'}
-                            className='popupModal-icon-style'
-                        /> 
+                </span>
+
+            ),
+            price: 100
+        },
+        {
+            value: 'Play',
+            label: (
+                <span>
+                    <IoGameControllerOutline
+                        size={'1.5em'}
+                        title={'Play'}
+                        className='popupModal-icon-style'
+                    />
+                    <span class="popupModal-icon-label-style">Play</span>
+                </span>
+            ),
+            price: 50
+        },
+        {
+            value: 'Transport',
+            label: (
+                <span>
+                    <IoTrainOutline
+                        size={'1.5em'}
+                        title={'Transport'}
+                        className='popupModal-icon-style'
+                    />
+                    <span class="popupModal-icon-label-style">Transport</span>
+                </span>
+            ),
+            price: 25
+        }
+    ]
+
+    // income items
+    const incomeItems = [
+        {
+            value: 'Salary',
+            label: (
+                <span>
+                    <PiMoney
+                        size={'1.5em'}
+                        title={'Salary'}
+                        className='popupModal-icon-style'
+                    />
                     <span class="popupModal-icon-label-style">Salary</span>
-                    </span>
-                    
-                )
-            },
-            {
-                value: 'Savings',
-                label: (
-                    <span>
-                        <TbPigMoney 
-                            size={'1.5em'}
-                            title={'Savings'}
-                            className='popupModal-icon-style'
-                        />
-                        <span class="popupModal-icon-label-style">Savings</span>
-                    </span>
-                )
-            },
-            {
-                value: 'Investments',
-                label: (
-                    <span>
-                        <RiStockLine 
-                            size={'1.5em'}
-                            title={'Investments'}
-                            className='popupModal-icon-style'
-                        />
-                        <span class="popupModal-icon-label-style">Investments</span>
-                    </span>
-                )
-            }
-        ]
+                </span>
+
+            ),
+            price: 100
+        },
+        {
+            value: 'Savings',
+            label: (
+                <span>
+                    <TbPigMoney
+                        size={'1.5em'}
+                        title={'Savings'}
+                        className='popupModal-icon-style'
+                    />
+                    <span class="popupModal-icon-label-style">Savings</span>
+                </span>
+            ),
+            price: 1000
+        },
+        {
+            value: 'Investments',
+            label: (
+                <span>
+                    <RiStockLine
+                        size={'1.5em'}
+                        title={'Investments'}
+                        className='popupModal-icon-style'
+                    />
+                    <span class="popupModal-icon-label-style">Investments</span>
+                </span>
+            ),
+            price: 10000
+        }
+    ]
+
+    interface Transaction {
+        key: string;
+        date: string;
+        description: string;
+        category: string;
+        amount: number;
+        type: string;
+      }
+
+      const transactionTabList = [
+        {
+          key: 'Today',
+          tab: 'Today',
+        },
+        {
+          key: 'Weekly',
+          tab: 'Weekly',
+        },
+        {
+            key: 'Monthly',
+            tab: 'Monthly',
+        },
+      ];
+      
+      const transactions: Transaction[] = [
+        { key: "1", date: "28/02", description: (
+            <span>
+                <IoGameControllerOutline
+                    size={'1.5em'}
+                    title={'Play'}
+                    className='popupModal-icon-style'
+                />
+                <span class="popupModal-icon-label-style">Play</span>
+            </span>
+        ), category: "food", amount: 59.32, type: "expense" },
+        { key: "2", date: "27/02", description: (
+            <span>
+                <IoGameControllerOutline
+                    size={'1.5em'}
+                    title={'Play'}
+                    className='popupModal-icon-style'
+                />
+                <span class="popupModal-icon-label-style">Play</span>
+            </span>
+        ), category: "games", amount: 19.99, type: "income" },
+        { key: "3", date: "26/02", description: (
+            <span>
+                <IoGameControllerOutline
+                    size={'1.5em'}
+                    title={'Play'}
+                    className='popupModal-icon-style'
+                />
+                <span class="popupModal-icon-label-style">Play</span>
+            </span>
+        ), category: "food", amount: 32.50, type: "expense" },
+        { key: "4", date: "25/02", description: (
+            <span>
+                <IoGameControllerOutline
+                    size={'1.5em'}
+                    title={'Play'}
+                    className='popupModal-icon-style'
+                />
+                <span class="popupModal-icon-label-style">Play</span>
+            </span>
+        ), category: "entertainment", amount: 12.99, type: "income" },
+        { key: "5", date: "24/02", description: (
+            <span>
+                <IoGameControllerOutline
+                    size={'1.5em'}
+                    title={'Play'}
+                    className='popupModal-icon-style'
+                />
+                <span class="popupModal-icon-label-style">Play</span>
+            </span>
+        ), category: "food", amount: 5.00, type: "expense" },
+      ];
     
 
     return (
@@ -182,8 +274,13 @@ const Home: React.FC = () => {
                 />
 
             </div>
-            <div className="budget-container">
+            <div className="expenses-income-container">
+                <DisplayExpenses isLoading={isExpenseLoading} data={expenseItems} />
+                <DisplayIncome isLoading={isIncomeLoading} data={incomeItems} />
+            </div>
+            <div className="budget-transactions-container">
                 <DisplayBudget />
+                <DisplayTransactionTable activeTab={transactionHistoryRange} tabList={transactionTabList} changeTab={onTransactionHistoryRangeChange} data={transactions}/>
             </div>
         </div>
 

@@ -1,0 +1,78 @@
+/* Table Container */
+.tableContainer {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    /* margin: 20px auto; */
+    overflow-x: auto;
+  }
+  
+  /* Table Title */
+  .tableTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  /* Responsive Table */
+  .transactionsTable .ant-table {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .expenserecord{
+    color: #c82333;
+  }
+
+  .incomerecord{
+    color: #218838;
+  }
+  
+  /* Column Styling */
+  .columnDate {
+    font-weight: bold;
+    text-align: left;
+    color:black
+  }
+  
+  .columnDescription {
+    text-transform: capitalize;
+  }
+  
+  .columnCategory {
+    text-transform: capitalize;
+  }
+  
+  .columnAmount {
+    font-weight: bold;
+    text-align: right;
+  }
+  
+  /* Amount Styling */
+  .amount {
+    font-weight: bold;
+  }
+  
+  /* 🌍 Responsive Styles */
+  @media (max-width: 768px) {
+    .tableContainer {
+      padding: 10px;
+      max-width: 100%;
+    }
+  
+    .tableTitle {
+      font-size: 1.2rem;
+    }
+  
+    .transactionsTable .ant-table {
+      font-size: 12px;
+    }
+  
+    .columnAmount {
+      text-align: center;
+    }
+  }
+  
