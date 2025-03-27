@@ -54,6 +54,8 @@ const Home: React.FC = () => {
 
     const [isExpenseLoading, setIsExpenseLoading] = useState(false);
     const [isIncomeLoading, setIsIncomeLoading] = useState(false);
+    const [isBudgetLoading, setIsBudgetLoading] = useState(false)
+    const [isTransactionsLoading, setIsTransactionsLoading] = useState(false)
     const [transactionHistoryRange, setTransactionHistoryRange] = useState('Today');
     const onTransactionHistoryRangeChange = (key: string) => {
         setTransactionHistoryRange(key);
@@ -237,18 +239,6 @@ const Home: React.FC = () => {
             <Header />
 
             <div>
-                <Button type="primary" onClick={showExpenseModal}>
-                    Add Expenses
-                </Button>
-
-                <Button type="primary" onClick={showIncomeModal}>
-                    Add Income
-                </Button>
-
-                <Button type="primary" onClick={showBudgetModal}>
-                    Add Budget
-                </Button>
-
                 <PopUpModal 
                     title="Expenses" 
                     isModalOpen={isExpenseModalOpen}
@@ -275,12 +265,12 @@ const Home: React.FC = () => {
 
             </div>
             <div className="expenses-income-container">
-                <DisplayExpenses isLoading={isExpenseLoading} data={expenseItems} />
-                <DisplayIncome isLoading={isIncomeLoading} data={incomeItems} />
+                <DisplayExpenses isLoading={isExpenseLoading} data={expenseItems} addButtonClick={showExpenseModal}/>
+                <DisplayIncome isLoading={isIncomeLoading} data={incomeItems} addButtonClick={showIncomeModal}/>
             </div>
             <div className="budget-transactions-container">
-                <DisplayBudget />
-                <DisplayTransactionTable activeTab={transactionHistoryRange} tabList={transactionTabList} changeTab={onTransactionHistoryRangeChange} data={transactions}/>
+                <DisplayBudget isLoading={isBudgetLoading} addButtonClick={showBudgetModal}/>
+                <DisplayTransactionTable activeTab={transactionHistoryRange} tabList={transactionTabList} changeTab={onTransactionHistoryRangeChange} data={transactions} isLoading={isTransactionsLoading}/>
             </div>
         </div>
 

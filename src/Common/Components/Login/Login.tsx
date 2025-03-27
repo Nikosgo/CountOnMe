@@ -1,6 +1,6 @@
 import React from "react";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Flex, ConfigProvider } from 'antd';
+import { Button, Checkbox, Form, Input, Flex, ConfigProvider, Card } from 'antd';
 import '../../../Common/Common.css';
 
 import Header from '../Header/Header.tsx';
@@ -21,7 +21,8 @@ const Login: React.FC = () => {
     return (
         <ConfigProvider theme={theme}>
             <Header/>
-
+            <Card className="login-card">
+            <h2>Welcome!</h2>
             <Form
                 name="login"
                 initialValues={{ remember: true }}
@@ -61,6 +62,7 @@ const Login: React.FC = () => {
                     </Button>
                 </Form.Item>
             </Form>
+            </Card>
         </ConfigProvider>
     );
 

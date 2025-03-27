@@ -3,17 +3,22 @@ import { Link, useLocation } from "react-router-dom";
 
 import './styles.css';
 import CountOnMeIcon from './CountOnMeIcon.png';
-import { MdCurrencyExchange } from "react-icons/md";
-import { RiAccountCircleLine } from "react-icons/ri";
+import LoggedInElements from './LoggedInElements.tsx';
 
 const Header: React.FC = () => {
     const location = useLocation();
     return (
         <div className="background">
             <ul className="header">
+                {location.pathname === "/" ?
+                    <></> :
+                    <li className="left-mobile-menu-button">
+
+                    </li>
+                }
                 <li className="logoDiv left">
                     <a href="/">
-                        <img src={CountOnMeIcon} alt="CountOnMe logo" className="logoStyle"/>
+                        <img src={CountOnMeIcon} alt="CountOnMe logo" className="logoStyle" />
                     </a>
                 </li>
                 <li className="left logoName">
@@ -21,26 +26,13 @@ const Header: React.FC = () => {
                         Count On Me
                     </a>
                 </li>
-                <li className="right">
-                    <Link to="/profile">
-                        { location.pathname === "/" ?
-                            <RiAccountCircleLine style={{display:'none'}} /> 
-                            : location.pathname === '/profile' ? 
-                                <RiAccountCircleLine className="iconProfileStyle iconfilled" />
-                                : <RiAccountCircleLine className="iconProfileStyle" />        
-                        }
-                    </Link>
-                </li>
-                <li className="right">
-                    <Link to="/">
-                        {
-                            location.pathname === "/" ?
-                            <MdCurrencyExchange style={{display:'none'}} /> 
-                            : <MdCurrencyExchange className="iconExchangeStyle"/>
-                        }
-                        
-                    </Link>
-                </li>
+                {location.pathname === "/" ?
+                    <></>
+                    :
+                    <>
+                        <LoggedInElements />
+                    </>
+                }
             </ul>
         </div>
     );

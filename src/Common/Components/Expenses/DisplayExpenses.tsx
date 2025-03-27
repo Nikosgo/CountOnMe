@@ -13,7 +13,7 @@ const DisplayExpenses: React.FC = (props: any) => {
                     <Item key={index} itemCategory={item.label} price={item.price} category="expense"/>
                 ))}
             </div>
-            <Button type="primary" className="expense-add-btn" block>
+            <Button type="primary" onClick={props.addButtonClick} className="expense-add-btn" block>
                 + Add Expenses
             </Button>
         </Card>
