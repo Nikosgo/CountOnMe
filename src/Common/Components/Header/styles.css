@@ -50,6 +50,34 @@ li a {
     font-size: 30px;
 }
 
+.left-mobile-menu-button {
+    display: none;
+    height: 50px;
+    width: 50px;
+}
+
+@media (max-width: 371px) {
+    .logoName {
+        display: none;
+    }
+    .left{
+        float: none;
+    }
+
+    .logoStyle {
+        padding: 0;
+    }
+    .left-mobile-menu{
+        display: block;
+    }
+}
+
+@media (max-width: 520px){
+    .right {
+        display:none;
+    }
+}
+
 .iconExchangeStyle {
     width: auto;
     height: 33px;
