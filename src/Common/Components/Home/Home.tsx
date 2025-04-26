@@ -1,4 +1,6 @@
 import React, { useState }  from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { IoFastFoodOutline, IoGameControllerOutline, IoTrainOutline } from 'react-icons/io5';
 import { PiMoney } from "react-icons/pi";
@@ -14,9 +16,41 @@ import DisplayBudget from '../Budget/DisplayBudget.tsx';
 import DisplayExpenses from '../Expenses/DisplayExpenses.tsx';
 import DisplayIncome from '../Income/DisplayIncome.tsx';
 import DisplayTransactionTable from '../Transaction/TransactionTable.tsx'
+import CategoryIcon from '../Icons/CategoryIcon.tsx'
+
+import {fetchTop3ExpenseCategories} from '../../../Api/TransactionsApi.tsx';
 
 const Home: React.FC = () => {
 
+    const navigate = useNavigate();
+
+    type expenseItems = {
+        value: string;
+        label: React.ReactNode; // JSX elements like <div>...</div> are ReactNode
+        price: number;
+    };
+
+    const [expenseItems, setExpenseItems] = useState([]);
+
+    useEffect(() => {
+        const userString = sessionStorage.getItem("user");
+        if (userString === null) {
+            navigate('/'); // 🚪 redirect back to login if no session
+        } 
+        else {
+            const user = JSON.parse(userString);
+            fetchTop3ExpenseCategories(user.email).then(
+                response => {
+                    const expensesCat = response.data.map((res) => ({
+                        value: res.category,
+                        label: (<CategoryIcon category={res.category}/>),
+                        price: res.amount
+                    }))
+                    setExpenseItems(expensesCat);
+                }
+            )
+        }
+    }, []);
 
     const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
     const showExpenseModal = () => {
@@ -60,53 +94,6 @@ const Home: React.FC = () => {
     const onTransactionHistoryRangeChange = (key: string) => {
         setTransactionHistoryRange(key);
     };
-
-    // expense items
-    const expenseItems = [
-        {
-            value: 'Food',
-            label: (
-                <span>
-                    <IoFastFoodOutline
-                        size={'1.5em'}
-                        title={'Food'}
-                        className='popupModal-icon-style'
-                    />
-                    <span class="popupModal-icon-label-style">Food</span>
-                </span>
-
-            ),
-            price: 100
-        },
-        {
-            value: 'Play',
-            label: (
-                <span>
-                    <IoGameControllerOutline
-                        size={'1.5em'}
-                        title={'Play'}
-                        className='popupModal-icon-style'
-                    />
-                    <span class="popupModal-icon-label-style">Play</span>
-                </span>
-            ),
-            price: 50
-        },
-        {
-            value: 'Transport',
-            label: (
-                <span>
-                    <IoTrainOutline
-                        size={'1.5em'}
-                        title={'Transport'}
-                        className='popupModal-icon-style'
-                    />
-                    <span class="popupModal-icon-label-style">Transport</span>
-                </span>
-            ),
-            price: 25
-        }
-    ]
 
     // income items
     const incomeItems = [
