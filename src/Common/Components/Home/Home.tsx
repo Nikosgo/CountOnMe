@@ -16,21 +16,23 @@ import DisplayBudget from '../Budget/DisplayBudget.tsx';
 import DisplayExpenses from '../Expenses/DisplayExpenses.tsx';
 import DisplayIncome from '../Income/DisplayIncome.tsx';
 import DisplayTransactionTable from '../Transaction/TransactionTable.tsx'
-import CategoryIcon from '../Icons/CategoryIcon.tsx'
+import ExpenseCategoryIcon from '../Icons/ExpenseCategoryIcon.tsx'
+import IncomeCategoryIcon from '../Icons/IncomeCategoryIcon.tsx'
 
-import {fetchTop3ExpenseCategories} from '../../../Api/TransactionsApi.tsx';
+import {fetchTop3ExpenseCategories, fetchTop3IncomeCategories} from '../../../Api/TransactionsApi.tsx';
 
 const Home: React.FC = () => {
 
     const navigate = useNavigate();
 
-    type expenseItems = {
+    type CategoryItem = {
         value: string;
-        label: React.ReactNode; // JSX elements like <div>...</div> are ReactNode
+        label: React.ReactNode;
         price: number;
     };
-
-    const [expenseItems, setExpenseItems] = useState([]);
+    
+    const [expenseItems, setExpenseItems] = useState<CategoryItem[]>([]);
+    const [incomeItems, setIncomeItems] = useState<CategoryItem[]>([]);
 
     useEffect(() => {
         const userString = sessionStorage.getItem("user");
@@ -41,12 +43,22 @@ const Home: React.FC = () => {
             const user = JSON.parse(userString);
             fetchTop3ExpenseCategories(user.email).then(
                 response => {
-                    const expensesCat = response.data.map((res) => ({
+                    const CategoryItem = response.data.map((res) => ({
                         value: res.category,
-                        label: (<CategoryIcon category={res.category}/>),
+                        label: (<ExpenseCategoryIcon category={res.category}/>),
                         price: res.amount
                     }))
-                    setExpenseItems(expensesCat);
+                    setExpenseItems(CategoryItem);
+                }
+            );
+            fetchTop3IncomeCategories(user.email).then(
+                response => {
+                    const CategoryItem = response.data.map((res) => ({
+                        value: res.category,
+                        label: (<IncomeCategoryIcon category={res.category}/>),
+                        price: res.amount
+                    }))
+                    setIncomeItems(CategoryItem);
                 }
             )
         }
@@ -94,53 +106,6 @@ const Home: React.FC = () => {
     const onTransactionHistoryRangeChange = (key: string) => {
         setTransactionHistoryRange(key);
     };
-
-    // income items
-    const incomeItems = [
-        {
-            value: 'Salary',
-            label: (
-                <span>
-                    <PiMoney
-                        size={'1.5em'}
-                        title={'Salary'}
-                        className='popupModal-icon-style'
-                    />
-                    <span class="popupModal-icon-label-style">Salary</span>
-                </span>
-
-            ),
-            price: 100
-        },
-        {
-            value: 'Savings',
-            label: (
-                <span>
-                    <TbPigMoney
-                        size={'1.5em'}
-                        title={'Savings'}
-                        className='popupModal-icon-style'
-                    />
-                    <span class="popupModal-icon-label-style">Savings</span>
-                </span>
-            ),
-            price: 1000
-        },
-        {
-            value: 'Investments',
-            label: (
-                <span>
-                    <RiStockLine
-                        size={'1.5em'}
-                        title={'Investments'}
-                        className='popupModal-icon-style'
-                    />
-                    <span class="popupModal-icon-label-style">Investments</span>
-                </span>
-            ),
-            price: 10000
-        }
-    ]
 
     interface Transaction {
         key: string;
