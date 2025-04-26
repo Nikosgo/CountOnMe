@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Flex, ConfigProvider, Card } from 'antd';
-import '../../../Common/Common.css';
 
+import '../../../Common/Common.css';
 import Header from '../Header/Header.tsx';
 
+import {checkUserPassword, fetchUserByEmail} from '../../../Api/UserApi.tsx';
+
 const Login: React.FC = () => {
+
+    const navigate = useNavigate();
 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -18,35 +22,27 @@ const Login: React.FC = () => {
         console.log('Received values of form: ', values);
         setEmail(values.email);
         setPassword(values.password);
-        authenticate(email, password);
+        authenticate(values.email, values.password);
     };
 
-    const authenticate = async (email, password) => {
+    const authenticate = async(email, password) => {
         try {
-            await axios.get(`http://localhost:8000/api/user/${email}`)
-                .then(
-                    (response) => {
-                        console.log(response.data)
-
-                        if(response.data == null) {
-                            console.log("Unable to find email!");
-                            setError("Email not found");
-                        }
-                        else {
-                            setUser(response.data);
-
-                            if(password === user.password) {
-                                console.log("Correct credentials");
-                                setError("")
-                            }
-                            else {
-                                console.log("Incorrect credetials");
-                                setError("Invalid email or password")
-                            }
-                        }
+            checkUserPassword(email, password).then(
+                response => {
+                    console.log(response.data);
+                    if(response.data === false) {
+                        console.log("Invalid Credentails");
+                        setError("Invalid Credentails")
                     }
-                )
+                    else {
+                        console.log("Credentails are correct")
+                        setError("");
+                        navigate('/home');
+                    }
+                }
+            )
             ;
+
         } catch (err: any) {
             console.error("Error fetching user:", err);
             setError(err.response?.data?.message);
