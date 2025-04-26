@@ -19,29 +19,37 @@ const Login: React.FC = () => {
 
 
     const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
         setEmail(values.email);
         setPassword(values.password);
         authenticate(values.email, values.password);
     };
 
-    const authenticate = async(email, password) => {
+    const authenticate = (email, password) => {
         try {
             checkUserPassword(email, password).then(
                 response => {
                     console.log(response.data);
                     if(response.data === false) {
                         console.log("Invalid Credentails");
-                        setError("Invalid Credentails")
+                        setError("Invalid Credentails");
                     }
                     else {
-                        console.log("Credentails are correct")
-                        setError("");
-                        navigate('/home');
+                        console.log("Credentails are correct");
                     }
                 }
-            )
-            ;
+            );
+
+            if(error === "") {
+                fetchUserByEmail(email).then(
+                    response => {
+                        console.log(response.data);
+                        sessionStorage.setItem("user", JSON.stringify(response.data))
+                        setUser(response.data);
+                    }
+                )
+                setError("");
+                navigate('/home');
+            }
 
         } catch (err: any) {
             console.error("Error fetching user:", err);
