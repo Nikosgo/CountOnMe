@@ -38,7 +38,7 @@ const TransactionTable: React.FC = (props: any) => {
             dataIndex: "amount",
             key: "amount",
             className: "columnAmount",
-            render: (amount: number) => <span className="amount">{amount.toFixed(2)}</span>,
+            render: (amount: number) => <span className="amount">${amount.toFixed(2)}</span>,
         },
     ];
 
