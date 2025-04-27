@@ -2,11 +2,7 @@ import React, { useState }  from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { IoFastFoodOutline, IoGameControllerOutline, IoTrainOutline } from 'react-icons/io5';
-import { PiMoney } from "react-icons/pi";
-import { TbPigMoney } from "react-icons/tb";
-import { RiStockLine } from "react-icons/ri";
-import { Button } from 'antd';
+import { IoGameControllerOutline } from 'react-icons/io5';
 
 import '../../../Common/Common.css';
 
@@ -19,28 +15,44 @@ import DisplayTransactionTable from '../Transaction/TransactionTable.tsx'
 import ExpenseCategoryIcon from '../Icons/ExpenseCategoryIcon.tsx'
 import IncomeCategoryIcon from '../Icons/IncomeCategoryIcon.tsx'
 
-import {fetchTop3ExpenseCategories, fetchTop3IncomeCategories} from '../../../Api/TransactionsApi.tsx';
+import {
+    fetchTransactionsByUser, fetchTop3ExpenseCategories, fetchTop3IncomeCategories,
+    fetchTransactionsToday, fetchTransactionsWeek, fetchTransactionsMonth
+} from '../../../Api/TransactionsApi.tsx';
 
 const Home: React.FC = () => {
 
     const navigate = useNavigate();
+    const userString = sessionStorage.getItem("user");
+    const user = userString === null ? null : JSON.parse(userString)
 
     type CategoryItem = {
         value: string;
         label: React.ReactNode;
         price: number;
     };
+    type TransactionItem = {
+        key: string;
+        date: string;
+        category: string;
+        description: string;
+        amount: number;
+        type: string;
+    };
     
     const [expenseItems, setExpenseItems] = useState<CategoryItem[]>([]);
     const [incomeItems, setIncomeItems] = useState<CategoryItem[]>([]);
+    const [transactionItems, setTransactionItems] = useState<TransactionItem[]>([]);
+    const [transactionItemsToday, setTransactionItemsToday] = useState<TransactionItem[]>([]);
+    const [transactionItemsWeek, setTransactionItemsWeek] = useState<TransactionItem[]>([]);
+    const [transactionItemsMonth, setTransactionItemsMonth] = useState<TransactionItem[]>([]);
 
     useEffect(() => {
-        const userString = sessionStorage.getItem("user");
-        if (userString === null) {
+        if (user === null) {
             navigate('/'); // 🚪 redirect back to login if no session
         } 
         else {
-            const user = JSON.parse(userString);
+            // fetch top 3 expenses categories 
             fetchTop3ExpenseCategories(user.email).then(
                 response => {
                     const CategoryItem = response.data.map((res) => ({
@@ -51,6 +63,7 @@ const Home: React.FC = () => {
                     setExpenseItems(CategoryItem);
                 }
             );
+            // fetch top 3 income categories 
             fetchTop3IncomeCategories(user.email).then(
                 response => {
                     const CategoryItem = response.data.map((res) => ({
@@ -59,6 +72,55 @@ const Home: React.FC = () => {
                         price: res.amount
                     }))
                     setIncomeItems(CategoryItem);
+                }
+            )
+
+            // fetch all transactions filtered by today
+            fetchTransactionsToday(user.email).then (
+                response => {
+                    const transactionArr = response.data;
+                    let transactions = transactionArr.map((res, index) => ({
+                        key: index,
+                        date: res.date,
+                        category: res.type === "income" ? (<IncomeCategoryIcon category={res.category}/>) : <ExpenseCategoryIcon category={res.category}/>,
+                        description: res.description,
+                        amount: res.amount,
+                        type: res.type,
+                    }))
+                    setTransactionItemsToday(transactions);
+                    setTransactionItems(transactions);
+                }
+            )
+            
+            // fetch all transactions filtered by this week
+            fetchTransactionsWeek(user.email).then (
+                response => {
+                    const transactionArr = response.data;
+                    let transactions = transactionArr.map((res, index) => ({
+                        key: index,
+                        date: res.date,
+                        category: res.type === "income" ? (<IncomeCategoryIcon category={res.category}/>) : <ExpenseCategoryIcon category={res.category}/>,
+                        description: res.description,
+                        amount: res.amount,
+                        type: res.type,
+                    }))
+                    setTransactionItemsWeek(transactions);
+                }
+            )
+
+            // fetch all transactions filtered by this month
+            fetchTransactionsMonth(user.email).then (
+                response => {
+                    const transactionArr = response.data;
+                    let transactions = transactionArr.map((res, index) => ({
+                        key: index,
+                        date: res.date,
+                        category: res.type === "income" ? (<IncomeCategoryIcon category={res.category}/>) : <ExpenseCategoryIcon category={res.category}/>,
+                        description: res.description,
+                        amount: res.amount,
+                        type: res.type,
+                    }))
+                    setTransactionItemsMonth(transactions);
                 }
             )
         }
@@ -103,12 +165,26 @@ const Home: React.FC = () => {
     const [isBudgetLoading, setIsBudgetLoading] = useState(false)
     const [isTransactionsLoading, setIsTransactionsLoading] = useState(false)
     const [transactionHistoryRange, setTransactionHistoryRange] = useState('Today');
+
     const onTransactionHistoryRangeChange = (key: string) => {
         setTransactionHistoryRange(key);
+        switch(key) {
+            case "Today":
+                setTransactionItems(transactionItemsToday);
+                break;
+            case "Weekly":
+                setTransactionItems(transactionItemsWeek);
+                break;
+            case "Monthly":
+                setTransactionItems(transactionItemsMonth);
+                break;
+            default:
+                setTransactionItems(transactionItemsToday);
+                break;
+        }
     };
 
     interface Transaction {
-        key: string;
         date: string;
         description: string;
         category: string;
@@ -130,61 +206,6 @@ const Home: React.FC = () => {
             tab: 'Monthly',
         },
       ];
-      
-      const transactions: Transaction[] = [
-        { key: "1", date: "28/02", description: (
-            <span>
-                <IoGameControllerOutline
-                    size={'1.5em'}
-                    title={'Play'}
-                    className='popupModal-icon-style'
-                />
-                <span class="popupModal-icon-label-style">Play</span>
-            </span>
-        ), category: "food", amount: 59.32, type: "expense" },
-        { key: "2", date: "27/02", description: (
-            <span>
-                <IoGameControllerOutline
-                    size={'1.5em'}
-                    title={'Play'}
-                    className='popupModal-icon-style'
-                />
-                <span class="popupModal-icon-label-style">Play</span>
-            </span>
-        ), category: "games", amount: 19.99, type: "income" },
-        { key: "3", date: "26/02", description: (
-            <span>
-                <IoGameControllerOutline
-                    size={'1.5em'}
-                    title={'Play'}
-                    className='popupModal-icon-style'
-                />
-                <span class="popupModal-icon-label-style">Play</span>
-            </span>
-        ), category: "food", amount: 32.50, type: "expense" },
-        { key: "4", date: "25/02", description: (
-            <span>
-                <IoGameControllerOutline
-                    size={'1.5em'}
-                    title={'Play'}
-                    className='popupModal-icon-style'
-                />
-                <span class="popupModal-icon-label-style">Play</span>
-            </span>
-        ), category: "entertainment", amount: 12.99, type: "income" },
-        { key: "5", date: "24/02", description: (
-            <span>
-                <IoGameControllerOutline
-                    size={'1.5em'}
-                    title={'Play'}
-                    className='popupModal-icon-style'
-                />
-                <span class="popupModal-icon-label-style">Play</span>
-            </span>
-        ), category: "food", amount: 5.00, type: "expense" },
-      ];
-    
-
     return (
 
         <div>
@@ -222,7 +243,7 @@ const Home: React.FC = () => {
             </div>
             <div className="budget-transactions-container">
                 <DisplayBudget isLoading={isBudgetLoading} addButtonClick={showBudgetModal}/>
-                <DisplayTransactionTable activeTab={transactionHistoryRange} tabList={transactionTabList} changeTab={onTransactionHistoryRangeChange} data={transactions} isLoading={isTransactionsLoading}/>
+                <DisplayTransactionTable activeTab={transactionHistoryRange} tabList={transactionTabList} changeTab={onTransactionHistoryRangeChange} data={transactionItems} isLoading={isTransactionsLoading}/>
             </div>
         </div>
 
