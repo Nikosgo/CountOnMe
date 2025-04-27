@@ -1,10 +1,8 @@
 import React, { useState }  from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { IoFastFoodOutline, IoGameControllerOutline, IoTrainOutline } from 'react-icons/io5';
-import { PiMoney } from "react-icons/pi";
-import { TbPigMoney } from "react-icons/tb";
-import { RiStockLine } from "react-icons/ri";
-import { Button } from 'antd';
+import { IoGameControllerOutline } from 'react-icons/io5';
 
 import '../../../Common/Common.css';
 
@@ -14,23 +12,181 @@ import DisplayBudget from '../Budget/DisplayBudget.tsx';
 import DisplayExpenses from '../Expenses/DisplayExpenses.tsx';
 import DisplayIncome from '../Income/DisplayIncome.tsx';
 import DisplayTransactionTable from '../Transaction/TransactionTable.tsx'
+import ExpenseCategoryIcon from '../Icons/ExpenseCategoryIcon.tsx'
+import IncomeCategoryIcon from '../Icons/IncomeCategoryIcon.tsx'
+
+import {
+    postNewTransaction,
+    fetchTransactionsByUser, fetchTop3ExpenseCategories, fetchTop3IncomeCategories,
+    fetchTransactionsToday, fetchTransactionsWeek, fetchTransactionsMonth
+} from '../../../Api/TransactionsApi.tsx';
 
 const Home: React.FC = () => {
 
+    const navigate = useNavigate();
+    const userString = sessionStorage.getItem("user");
+    const user = userString === null ? null : JSON.parse(userString)
+
+    type CategoryItem = {
+        value: string;
+        label: React.ReactNode;
+        price: number;
+    };
+    type TransactionItem = {
+        key: string;
+        date: string;
+        category: string;
+        description: string;
+        amount: number;
+        type: string;
+    };
+    type InsertTransaction = {
+        type: string,
+        category: string,
+        description: string,
+        amount: number
+        user: string,
+        date: Date
+    };
+
+    const transactionTabList = [
+        {
+            key: 'Today',
+            tab: 'Today',
+        },
+        {
+            key: 'Weekly',
+            tab: 'Weekly',
+        },
+        {
+            key: 'Monthly',
+            tab: 'Monthly',
+        },
+    ];
+    
+    const [expenseItems, setExpenseItems] = useState<CategoryItem[]>([]);
+    const [incomeItems, setIncomeItems] = useState<CategoryItem[]>([]);
+    const [transactionItems, setTransactionItems] = useState<TransactionItem[]>([]);
+    const [transactionItemsToday, setTransactionItemsToday] = useState<TransactionItem[]>([]);
+    const [transactionItemsWeek, setTransactionItemsWeek] = useState<TransactionItem[]>([]);
+    const [transactionItemsMonth, setTransactionItemsMonth] = useState<TransactionItem[]>([]);
+
+    useEffect(() => {
+        if (user === null) {
+            navigate('/'); // 🚪 redirect back to login if no session
+        } 
+        else {
+            // fetch top 3 expenses categories 
+            fetchTop3ExpenseCategories(user.email).then(
+                response => {
+                    const CategoryItem = response.data.map((res) => ({
+                        value: res.category,
+                        label: (<ExpenseCategoryIcon category={res.category}/>),
+                        price: res.amount
+                    }))
+                    setExpenseItems(CategoryItem);
+                }
+            );
+            // fetch top 3 income categories 
+            fetchTop3IncomeCategories(user.email).then(
+                response => {
+                    const CategoryItem = response.data.map((res) => ({
+                        value: res.category,
+                        label: (<IncomeCategoryIcon category={res.category}/>),
+                        price: res.amount
+                    }))
+                    setIncomeItems(CategoryItem);
+                }
+            )
+
+            // fetch all transactions filtered by today
+            fetchTransactionsToday(user.email).then (
+                response => {
+                    const transactionArr = response.data;
+                    let transactions = transactionArr.map((res, index) => ({
+                        key: index,
+                        date: res.date,
+                        category: res.type === "income" ? (<IncomeCategoryIcon category={res.category}/>) : <ExpenseCategoryIcon category={res.category}/>,
+                        description: res.description,
+                        amount: res.amount,
+                        type: res.type,
+                    }))
+                    setTransactionItemsToday(transactions);
+                    setTransactionItems(transactions);
+                }
+            )
+            
+            // fetch all transactions filtered by this week
+            fetchTransactionsWeek(user.email).then (
+                response => {
+                    const transactionArr = response.data;
+                    let transactions = transactionArr.map((res, index) => ({
+                        key: index,
+                        date: res.date,
+                        category: res.type === "income" ? (<IncomeCategoryIcon category={res.category}/>) : <ExpenseCategoryIcon category={res.category}/>,
+                        description: res.description,
+                        amount: res.amount,
+                        type: res.type,
+                    }))
+                    setTransactionItemsWeek(transactions);
+                }
+            )
+
+            // fetch all transactions filtered by this month
+            fetchTransactionsMonth(user.email).then (
+                response => {
+                    const transactionArr = response.data;
+                    let transactions = transactionArr.map((res, index) => ({
+                        key: index,
+                        date: res.date,
+                        category: res.type === "income" ? (<IncomeCategoryIcon category={res.category}/>) : <ExpenseCategoryIcon category={res.category}/>,
+                        description: res.description,
+                        amount: res.amount,
+                        type: res.type,
+                    }))
+                    setTransactionItemsMonth(transactions);
+                }
+            )
+        }
+    }, []);
 
     const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+    const [expenseTransactionDetails, setExpenseTransactionDetails] = useState<InsertTransaction>();
     const showExpenseModal = () => {
         setIsExpenseModalOpen(true);
     };
     const handleExpenseOk = () => {
+        console.log()
         setIsExpenseModalOpen(false);
     };
     const handleExpenseCancel = () => {
         setIsExpenseModalOpen(false);
     };
+    const handleExpenseTransactionData = async (data) => {
+        const insertTransaction = {
+            type: "expense",
+            category: data.category,
+            description: data.description,
+            amount: Number(data.amount),
+            user: user.email,
+            date: data.date
+        }
+        setExpenseTransactionDetails(insertTransaction);
+        let success = await postNewTransaction(insertTransaction);
+        console.log(success);
+        
+        if(!success) {
+            alert("Error adding transaction. Please try again later.")
+        }
+        else {
+            alert("Uploaded new expense")
+            setIsExpenseModalOpen(false);
+        }
+    };
 
 
     const [isIncomeModalOpen, setIsIncomeModalOpen] = useState(false);
+    const [incomeTransactionDetails, setIncomeTransactionDetails] = useState<InsertTransaction>();
     const showIncomeModal = () => {
         setIsIncomeModalOpen(true);
     };
@@ -40,6 +196,28 @@ const Home: React.FC = () => {
     const handleIncomeCancel = () => {
         setIsIncomeModalOpen(false);
     };
+    const handleIncomeTransactionData = async (data) => {
+        const insertTransaction = {
+            type: "income",
+            category: data.category,
+            description: data.description,
+            amount: Number(data.amount),
+            user: user.email,
+            date: data.date
+        }
+        setIncomeTransactionDetails(insertTransaction);
+        let success = await postNewTransaction(insertTransaction);
+        console.log(success);
+        
+        if(!success) {
+            alert("Error adding transaction. Please try again later.")
+        }
+        else {
+            alert("Uploaded new income")
+            setIsIncomeModalOpen(false);
+        }
+    };
+
 
     const [isBudgetModalOpen, setIsBudgetModalOpen] = useState(false);
     const showBudgetModal = () => {
@@ -57,181 +235,28 @@ const Home: React.FC = () => {
     const [isBudgetLoading, setIsBudgetLoading] = useState(false)
     const [isTransactionsLoading, setIsTransactionsLoading] = useState(false)
     const [transactionHistoryRange, setTransactionHistoryRange] = useState('Today');
+
     const onTransactionHistoryRangeChange = (key: string) => {
         setTransactionHistoryRange(key);
+        switch(key) {
+            case "Today":
+                setTransactionItems(transactionItemsToday);
+                break;
+            case "Weekly":
+                setTransactionItems(transactionItemsWeek);
+                break;
+            case "Monthly":
+                setTransactionItems(transactionItemsMonth);
+                break;
+            default:
+                setTransactionItems(transactionItemsToday);
+                break;
+        }
     };
 
-    // expense items
-    const expenseItems = [
-        {
-            value: 'Food',
-            label: (
-                <span>
-                    <IoFastFoodOutline
-                        size={'1.5em'}
-                        title={'Food'}
-                        className='popupModal-icon-style'
-                    />
-                    <span class="popupModal-icon-label-style">Food</span>
-                </span>
 
-            ),
-            price: 100
-        },
-        {
-            value: 'Play',
-            label: (
-                <span>
-                    <IoGameControllerOutline
-                        size={'1.5em'}
-                        title={'Play'}
-                        className='popupModal-icon-style'
-                    />
-                    <span class="popupModal-icon-label-style">Play</span>
-                </span>
-            ),
-            price: 50
-        },
-        {
-            value: 'Transport',
-            label: (
-                <span>
-                    <IoTrainOutline
-                        size={'1.5em'}
-                        title={'Transport'}
-                        className='popupModal-icon-style'
-                    />
-                    <span class="popupModal-icon-label-style">Transport</span>
-                </span>
-            ),
-            price: 25
-        }
-    ]
 
-    // income items
-    const incomeItems = [
-        {
-            value: 'Salary',
-            label: (
-                <span>
-                    <PiMoney
-                        size={'1.5em'}
-                        title={'Salary'}
-                        className='popupModal-icon-style'
-                    />
-                    <span class="popupModal-icon-label-style">Salary</span>
-                </span>
 
-            ),
-            price: 100
-        },
-        {
-            value: 'Savings',
-            label: (
-                <span>
-                    <TbPigMoney
-                        size={'1.5em'}
-                        title={'Savings'}
-                        className='popupModal-icon-style'
-                    />
-                    <span class="popupModal-icon-label-style">Savings</span>
-                </span>
-            ),
-            price: 1000
-        },
-        {
-            value: 'Investments',
-            label: (
-                <span>
-                    <RiStockLine
-                        size={'1.5em'}
-                        title={'Investments'}
-                        className='popupModal-icon-style'
-                    />
-                    <span class="popupModal-icon-label-style">Investments</span>
-                </span>
-            ),
-            price: 10000
-        }
-    ]
-
-    interface Transaction {
-        key: string;
-        date: string;
-        description: string;
-        category: string;
-        amount: number;
-        type: string;
-      }
-
-      const transactionTabList = [
-        {
-          key: 'Today',
-          tab: 'Today',
-        },
-        {
-          key: 'Weekly',
-          tab: 'Weekly',
-        },
-        {
-            key: 'Monthly',
-            tab: 'Monthly',
-        },
-      ];
-      
-      const transactions: Transaction[] = [
-        { key: "1", date: "28/02", description: (
-            <span>
-                <IoGameControllerOutline
-                    size={'1.5em'}
-                    title={'Play'}
-                    className='popupModal-icon-style'
-                />
-                <span class="popupModal-icon-label-style">Play</span>
-            </span>
-        ), category: "food", amount: 59.32, type: "expense" },
-        { key: "2", date: "27/02", description: (
-            <span>
-                <IoGameControllerOutline
-                    size={'1.5em'}
-                    title={'Play'}
-                    className='popupModal-icon-style'
-                />
-                <span class="popupModal-icon-label-style">Play</span>
-            </span>
-        ), category: "games", amount: 19.99, type: "income" },
-        { key: "3", date: "26/02", description: (
-            <span>
-                <IoGameControllerOutline
-                    size={'1.5em'}
-                    title={'Play'}
-                    className='popupModal-icon-style'
-                />
-                <span class="popupModal-icon-label-style">Play</span>
-            </span>
-        ), category: "food", amount: 32.50, type: "expense" },
-        { key: "4", date: "25/02", description: (
-            <span>
-                <IoGameControllerOutline
-                    size={'1.5em'}
-                    title={'Play'}
-                    className='popupModal-icon-style'
-                />
-                <span class="popupModal-icon-label-style">Play</span>
-            </span>
-        ), category: "entertainment", amount: 12.99, type: "income" },
-        { key: "5", date: "24/02", description: (
-            <span>
-                <IoGameControllerOutline
-                    size={'1.5em'}
-                    title={'Play'}
-                    className='popupModal-icon-style'
-                />
-                <span class="popupModal-icon-label-style">Play</span>
-            </span>
-        ), category: "food", amount: 5.00, type: "expense" },
-      ];
-    
 
     return (
 
@@ -242,9 +267,9 @@ const Home: React.FC = () => {
                 <PopUpModal 
                     title="Expenses" 
                     isModalOpen={isExpenseModalOpen}
-                    handleOk={handleExpenseOk}
                     handleCancel={handleExpenseCancel}
                     categories={expenseItems}
+                    onTransactionData={handleExpenseTransactionData}
                 />
 
                 <PopUpModal 
@@ -253,6 +278,7 @@ const Home: React.FC = () => {
                     handleOk={handleIncomeOk}
                     handleCancel={handleIncomeCancel}
                     categories={incomeItems}
+                    onTransactionData={handleIncomeTransactionData}
                 />
 
                 <PopUpModal 
@@ -268,9 +294,9 @@ const Home: React.FC = () => {
                 <DisplayExpenses isLoading={isExpenseLoading} data={expenseItems} addButtonClick={showExpenseModal}/>
                 <DisplayIncome isLoading={isIncomeLoading} data={incomeItems} addButtonClick={showIncomeModal}/>
             </div>
-            <div className="budget-transactions-container">
+            <div className="expenses-income-container">
                 <DisplayBudget isLoading={isBudgetLoading} addButtonClick={showBudgetModal}/>
-                <DisplayTransactionTable activeTab={transactionHistoryRange} tabList={transactionTabList} changeTab={onTransactionHistoryRangeChange} data={transactions} isLoading={isTransactionsLoading}/>
+                <DisplayTransactionTable activeTab={transactionHistoryRange} tabList={transactionTabList} changeTab={onTransactionHistoryRangeChange} data={transactionItems} isLoading={isTransactionsLoading}/>
             </div>
         </div>
 

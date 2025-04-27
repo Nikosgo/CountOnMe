@@ -1,18 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, DatePicker, Select, ConfigProvider, Flex, Input, InputNumber } from 'antd';
 import dayjs from 'dayjs';
 
 import '../../../Common/Common.css';
 
 
-const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) => {
+const PopUpModal = ({title, categories, isModalOpen, handleCancel, onTransactionData}) => {
 
     const lowercaseTitle = title.toLowerCase();
-
-    const datePickerOnChange = (date, dateString) => {
-        console.log(date);
-        console.log(dateString);
-    };
 
     const ModalStyles = {
         header: {
@@ -128,7 +123,38 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
         }    
     }
 
+    const [selectedDate, setSelectedDate] = useState(dayjs());
+    const [category, setCategory] = useState(null);
+    const [amount, setAmount] = useState<Number>(0);
+    const [description, setDescription] = useState('');
 
+    const datePickerOnChange = (date, dateString) => {
+        if(date && dateString) {
+            setSelectedDate(date.$d);
+        }
+    };
+    const descriptionOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDescription(event.target.value); // Update the state with the new input value
+      };
+
+    const handleOk = () => {
+        const transactionDetails = {
+            date: selectedDate.toDate(),
+            category: category,
+            amount: Number(amount),
+            description: description,
+        };
+
+        if (!transactionDetails.date || !transactionDetails.category || !transactionDetails.amount || !transactionDetails.description) {
+            alert("Please fill in all fields.");
+            return; // Prevent further execution if validation fails
+        }
+        else {
+            // Pass the data back to the parent component
+            onTransactionData(transactionDetails);
+        }
+      };
+    
 
     return (
 
@@ -172,6 +198,7 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
                         align={'center'}
                     >
                         <DatePicker 
+                            value={selectedDate}
                             onChange={datePickerOnChange} 
                             size={'large'}
                             placeholder={'Date'}
@@ -198,6 +225,8 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
                         <Select 
                             allowClear={true}
                             options={categories}
+                            value={category}
+                            onChange={setCategory}
                             size={'large'}
                             placeholder={"Category"}
                             variant={"borderless"}
@@ -217,6 +246,8 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
 
                         <InputNumber
                             prefix='$'
+                            value={amount}
+                            onInput={setAmount}
                             size={'large'}
                             variant={"borderless"}
                             className={'custom-font-size'}
@@ -232,6 +263,7 @@ const PopUpModal = ({title, categories, isModalOpen, handleOk, handleCancel}) =>
             
                     <Input
                         placeholder='Description' 
+                        onChange={descriptionOnChange}
                         size={'large'}
                         className={'custom-font-size'}
                         style={{

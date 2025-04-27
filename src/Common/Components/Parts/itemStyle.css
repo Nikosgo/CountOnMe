@@ -19,8 +19,14 @@
     font-size: 1rem;
 }
 
+.categoryLabel {
+    font-size: 1.1rem;
+    text-align: center;
+}
+
 .amount {
-    font-size: 1.4rem;
+    font-family: monospace;
+    font-size: 2rem;
     font-weight: bold;
     text-align: center;
 }
@@ -38,6 +44,7 @@
 
 .income-category-card {
     background-color: #eaf7ec;
+    width: 30%;
 }
 
 .income-category-card > .ant-card-body > .amount {
@@ -47,6 +54,7 @@
 
 .expense-category-card {
     background-color: #fdecee;
+    width: 30%;
 }
 
 .expense-category-card > .ant-card-body > .amount{

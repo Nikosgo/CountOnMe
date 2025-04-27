@@ -119,7 +119,7 @@ const DisplayBudget: React.FC = () => {
             fontWeight: 'bold',
             fontSize: '20px',
             padding: '10px 20px',
-            marginTop: '20px',
+            margin: '0 50px',
             backgroundColor: budgetTheme.token.colorTextBase,
             color: '#fff'
           }}

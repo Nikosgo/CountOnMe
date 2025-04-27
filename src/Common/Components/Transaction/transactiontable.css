@@ -21,6 +21,8 @@
   .transactionsTable .ant-table {
     border-radius: 10px;
     overflow: hidden;
+    min-height: 500px;
+    max-height: 500px;
   }
 
   .expenserecord{
@@ -54,6 +56,7 @@
   /* Amount Styling */
   .amount {
     font-weight: bold;
+    font-size: 20px;
   }
   
   /* 🌍 Responsive Styles */

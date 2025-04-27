@@ -1,15 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Flex, ConfigProvider, Card } from 'antd';
-import '../../../Common/Common.css';
 
+import '../../../Common/Common.css';
 import Header from '../Header/Header.tsx';
+
+import {checkUserPassword, fetchUserByEmail} from '../../../Api/UserApi.tsx';
 
 const Login: React.FC = () => {
 
+    const navigate = useNavigate();
+
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [user, setUser] = useState<any>(null);
+    const [error, setError] = useState<string>("");
+
+
     const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
+        setEmail(values.email);
+        setPassword(values.password);
+        authenticate(values.email, values.password);
     };
+
+    const authenticate = (email, password) => {
+        try {
+            checkUserPassword(email, password).then(
+                response => {
+                    console.log(response.data);
+                    if(response.data === false) {
+                        console.log("Invalid Credentails");
+                        setError("Invalid Credentails");
+                    }
+                    else {
+                        console.log("Credentails are correct");
+                    }
+                }
+            );
+
+            if(error === "") {
+                fetchUserByEmail(email).then(
+                    response => {
+                        console.log(response.data);
+                        sessionStorage.setItem("user", JSON.stringify(response.data))
+                        setUser(response.data);
+                    }
+                )
+                setError("");
+                navigate('/home');
+            }
+
+        } catch (err: any) {
+            console.error("Error fetching user:", err);
+            setError(err.response?.data?.message);
+            setUser(null); // Clear previous user data
+        }
+    }
 
     const theme = {
         token: {
@@ -32,10 +79,10 @@ const Login: React.FC = () => {
                 }}
             >
                 <Form.Item
-                    name="username"
-                    rules={[{ required: true, message: 'Please input your Username!' }]}
+                    name="email"
+                    rules={[{ required: true, message: 'Please input your email!' }]}
                 >
-                    <Input prefix={<UserOutlined />} placeholder="Username" />
+                    <Input prefix={<UserOutlined />} placeholder="email" />
                 </Form.Item>
 
                 <Form.Item
@@ -63,6 +110,7 @@ const Login: React.FC = () => {
                 </Form.Item>
             </Form>
             </Card>
+            {error && <p style={{ color: "red" }}>{error}</p>}
         </ConfigProvider>
     );
 
