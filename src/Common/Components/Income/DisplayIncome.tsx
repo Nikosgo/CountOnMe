@@ -4,7 +4,7 @@ import "./incomeStyle.css";
 import Item from "../Parts/Item.tsx";
 
 
-const DisplayExpenses: React.FC = (props: any) => {
+const DisplayIncome: React.FC = (props: any) => {
     return (
         <Card className="expense-income-panel income-panel" loading={props.isLoading} bordered={false}>
             <h2 className="income-panel-title">Income</h2>
@@ -20,4 +20,4 @@ const DisplayExpenses: React.FC = (props: any) => {
     );
 };
 
-export default DisplayExpenses;
+export default DisplayIncome;
