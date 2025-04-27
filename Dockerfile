@@ -7,23 +7,18 @@ WORKDIR /app
 # Copy package.json
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
-
 # Copy the rest of the React app
 COPY . .
+
+# Install dependencies
+RUN npm install -g serve
+RUN npm install
 
 # Build the app
 RUN npm run build
 
-# Production Stage
-FROM nginx:stable-alpine
+# Expose port 3000 for nginx
+EXPOSE 3000
 
-# Copy build output
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Expose port 80 for nginx
-EXPOSE 80
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Serve the build folder
+CMD ["serve", "-s", "build", "-l", "3000"]
