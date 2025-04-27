@@ -241,7 +241,7 @@ const Home: React.FC = () => {
                 <DisplayExpenses isLoading={isExpenseLoading} data={expenseItems} addButtonClick={showExpenseModal}/>
                 <DisplayIncome isLoading={isIncomeLoading} data={incomeItems} addButtonClick={showIncomeModal}/>
             </div>
-            <div className="budget-transactions-container">
+            <div className="expenses-income-container">
                 <DisplayBudget isLoading={isBudgetLoading} addButtonClick={showBudgetModal}/>
                 <DisplayTransactionTable activeTab={transactionHistoryRange} tabList={transactionTabList} changeTab={onTransactionHistoryRangeChange} data={transactionItems} isLoading={isTransactionsLoading}/>
             </div>

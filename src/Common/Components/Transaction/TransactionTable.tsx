@@ -45,7 +45,7 @@ const TransactionTable: React.FC = (props: any) => {
     return (
         <>
             <Card
-                style={{ width: '100%', margin: 'auto', minHeight: '500px', maxHeight: '500px', minWidth: '1000px', maxWidth: '1000px' }}
+                style={{ width: '100%', margin: 'auto', minHeight: '730px', maxHeight: '730px', minWidth: '900px', maxWidth: '900px' }}
                 tabList={props.tabList}
                 activeTabKey={props.activeTab}
                 onTabChange={props.changeTab}

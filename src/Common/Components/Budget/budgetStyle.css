@@ -2,10 +2,10 @@
 .budget-card {
   display: flex;
   flex-direction: column;
-  width: 800px;
-  min-height: 500px;
+  width: 900px;
+  min-height: 730px;
   background-color: #d4eaf7; /* Light blue background */
-  padding: 20px;
+  /* padding: 20px; */
   border-radius: 15px;
   font-family: "Arial", sans-serif;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
@@ -21,10 +21,12 @@
   margin-bottom: 10px;
   line-height: 3;  /* Slightly increase line height for more breathing room */
   text-align: left;
+  padding: 0 50px;
 }
 
 /* Each "item" block for a category row + optional warning text */
 .budget-item {
+  padding: 0 50px;
   margin-bottom: 20px; /* Spacing between items */
 }
 
@@ -91,6 +93,7 @@
   margin-top: auto;
   padding: 10px 0;
   border: none;
+  padding: 0 50px;
 }
 
 .add-budget-btn:hover {
