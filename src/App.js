@@ -7,13 +7,17 @@ import Login from "../src/Common/Components/Login/Login.tsx"
 
 function App() {
   return (
-    <Router>
-        <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/home" element={<Home />} />
-        </Routes>
-    </Router>
+    <>
+        <title>CountOnMe</title>
+        <Router>
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/home" element={<Home />} />
+            </Routes>
+        </Router>
+    </>
+    
   );
 }
 
