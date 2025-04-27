@@ -16,6 +16,7 @@ import ExpenseCategoryIcon from '../Icons/ExpenseCategoryIcon.tsx'
 import IncomeCategoryIcon from '../Icons/IncomeCategoryIcon.tsx'
 
 import {
+    postNewTransaction,
     fetchTransactionsByUser, fetchTop3ExpenseCategories, fetchTop3IncomeCategories,
     fetchTransactionsToday, fetchTransactionsWeek, fetchTransactionsMonth
 } from '../../../Api/TransactionsApi.tsx';
@@ -39,6 +40,29 @@ const Home: React.FC = () => {
         amount: number;
         type: string;
     };
+    type InsertTransaction = {
+        type: string,
+        category: string,
+        description: string,
+        amount: number
+        user: string,
+        date: Date
+    };
+
+    const transactionTabList = [
+        {
+            key: 'Today',
+            tab: 'Today',
+        },
+        {
+            key: 'Weekly',
+            tab: 'Weekly',
+        },
+        {
+            key: 'Monthly',
+            tab: 'Monthly',
+        },
+    ];
     
     const [expenseItems, setExpenseItems] = useState<CategoryItem[]>([]);
     const [incomeItems, setIncomeItems] = useState<CategoryItem[]>([]);
@@ -127,18 +151,42 @@ const Home: React.FC = () => {
     }, []);
 
     const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+    const [expenseTransactionDetails, setExpenseTransactionDetails] = useState<InsertTransaction>();
     const showExpenseModal = () => {
         setIsExpenseModalOpen(true);
     };
     const handleExpenseOk = () => {
+        console.log()
         setIsExpenseModalOpen(false);
     };
     const handleExpenseCancel = () => {
         setIsExpenseModalOpen(false);
     };
+    const handleExpenseTransactionData = async (data) => {
+        const insertTransaction = {
+            type: "expense",
+            category: data.category,
+            description: data.description,
+            amount: Number(data.amount),
+            user: user.email,
+            date: data.date
+        }
+        setExpenseTransactionDetails(insertTransaction);
+        let success = await postNewTransaction(insertTransaction);
+        console.log(success);
+        
+        if(!success) {
+            alert("Error adding transaction. Please try again later.")
+        }
+        else {
+            alert("Uploaded new expense")
+            setIsExpenseModalOpen(false);
+        }
+    };
 
 
     const [isIncomeModalOpen, setIsIncomeModalOpen] = useState(false);
+    const [incomeTransactionDetails, setIncomeTransactionDetails] = useState<InsertTransaction>();
     const showIncomeModal = () => {
         setIsIncomeModalOpen(true);
     };
@@ -148,6 +196,28 @@ const Home: React.FC = () => {
     const handleIncomeCancel = () => {
         setIsIncomeModalOpen(false);
     };
+    const handleIncomeTransactionData = async (data) => {
+        const insertTransaction = {
+            type: "income",
+            category: data.category,
+            description: data.description,
+            amount: Number(data.amount),
+            user: user.email,
+            date: data.date
+        }
+        setIncomeTransactionDetails(insertTransaction);
+        let success = await postNewTransaction(insertTransaction);
+        console.log(success);
+        
+        if(!success) {
+            alert("Error adding transaction. Please try again later.")
+        }
+        else {
+            alert("Uploaded new income")
+            setIsIncomeModalOpen(false);
+        }
+    };
+
 
     const [isBudgetModalOpen, setIsBudgetModalOpen] = useState(false);
     const showBudgetModal = () => {
@@ -184,28 +254,10 @@ const Home: React.FC = () => {
         }
     };
 
-    interface Transaction {
-        date: string;
-        description: string;
-        category: string;
-        amount: number;
-        type: string;
-      }
 
-      const transactionTabList = [
-        {
-          key: 'Today',
-          tab: 'Today',
-        },
-        {
-          key: 'Weekly',
-          tab: 'Weekly',
-        },
-        {
-            key: 'Monthly',
-            tab: 'Monthly',
-        },
-      ];
+
+
+
     return (
 
         <div>
@@ -215,9 +267,9 @@ const Home: React.FC = () => {
                 <PopUpModal 
                     title="Expenses" 
                     isModalOpen={isExpenseModalOpen}
-                    handleOk={handleExpenseOk}
                     handleCancel={handleExpenseCancel}
                     categories={expenseItems}
+                    onTransactionData={handleExpenseTransactionData}
                 />
 
                 <PopUpModal 
@@ -226,6 +278,7 @@ const Home: React.FC = () => {
                     handleOk={handleIncomeOk}
                     handleCancel={handleIncomeCancel}
                     categories={incomeItems}
+                    onTransactionData={handleIncomeTransactionData}
                 />
 
                 <PopUpModal 

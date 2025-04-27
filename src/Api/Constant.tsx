@@ -11,6 +11,7 @@ export const USER_API = {
 
 export const TRANSACTION_URL = {
     BASE_URL: TRANSACTIONS_BASE_URL,
+    FIND_TRANSACTION_BY_USER_TYPE_CATEGORY_AMOUNT: TRANSACTIONS_BASE_URL + "/search/findByUserAndTypeAndCategoryAndAmount",
     FIND_ALL_EXPENSES_BY_USER: TRANSACTIONS_BASE_URL + "/search/findExpensesByUser",
     FIND_ALL_INCOME_BY_USER: TRANSACTIONS_BASE_URL + "/search/findIncomeByUser",
     FIND_ALL_TRANSACTIONS_BY_USER: TRANSACTIONS_BASE_URL + "/search/findTransactionsByUser",

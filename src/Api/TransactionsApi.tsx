@@ -1,6 +1,37 @@
 import axios from 'axios';
 import {TRANSACTION_URL} from "./Constant.tsx"
 
+export const postNewTransaction = async (transaction) => {
+    try {
+        const postResponse = await axios.post(TRANSACTION_URL.BASE_URL, transaction, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        const getResponse = await axios.get(TRANSACTION_URL.FIND_TRANSACTION_BY_USER_TYPE_CATEGORY_AMOUNT, {
+            params: {
+                user: transaction.user,
+                type: transaction.type,
+                category: transaction.category,
+                amount: transaction.amount
+            }
+        });
+
+        console.log(getResponse.data._embedded.transactions.length);
+        // Check the response to determine success
+        if (getResponse.data._embedded.transactions.length === 0) {
+            return false; // Transaction doesn't exist
+        } else {
+            return true; // Transaction exists
+        }
+    }
+    catch (error){
+        console.error('Error posting transaction:', error);
+        return false;
+    }
+};
+
 export const fetchTransactionsByUser = (user) => {
     return axios.get(TRANSACTION_URL.FIND_ALL_TRANSACTIONS_BY_USER, {
         params: { user }
