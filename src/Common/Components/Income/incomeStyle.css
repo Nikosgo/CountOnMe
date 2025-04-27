@@ -37,11 +37,19 @@
 /* Button Styling */
 .income-add-btn {
   width: 100%;
-  margin-top: 10px;
+  padding: 20px;
+  margin-top: 20px;
   font-size: 1.1rem;
   font-weight: bold;
+  border-width: 2.5px;
   border-radius: 6px;
   background-color: #218838;
+}
+
+.income-add-btn:hover {
+    color: #218838 !important; 
+    background: #d4edda !important; 
+    border-color: #218838 !important; 
 }
 
 /* 🌍 Media Queries for Different Screen Sizes */
