@@ -25,36 +25,32 @@ const Login: React.FC = () => {
     };
 
     const authenticate = (email, password) => {
-        try {
-            checkUserPassword(email, password).then(
+        checkUserPassword(email, password).then(
+            response => {
+                console.log(response.data);
+                if(response.data === false) {
+                    console.log("Invalid Credentails");
+                    setError("Invalid Credentails");
+                }
+                else {
+                    console.log("Credentails are correct");
+                }
+            }
+        );
+
+        if(error === "") {
+            fetchUserByEmail(email).then(
                 response => {
                     console.log(response.data);
-                    if(response.data === false) {
-                        console.log("Invalid Credentails");
-                        setError("Invalid Credentails");
-                    }
-                    else {
-                        console.log("Credentails are correct");
-                    }
+                    sessionStorage.setItem("user", JSON.stringify(response.data))
+                    setUser(response.data);
+                    setError("");
+                    navigate('/home');
                 }
-            );
-
-            if(error === "") {
-                fetchUserByEmail(email).then(
-                    response => {
-                        console.log(response.data);
-                        sessionStorage.setItem("user", JSON.stringify(response.data))
-                        setUser(response.data);
-                    }
-                )
-                setError("");
-                navigate('/home');
-            }
-
-        } catch (err: any) {
-            console.error("Error fetching user:", err);
-            setError(err.response?.data?.message);
-            setUser(null); // Clear previous user data
+            ).catch(err => {
+                console.error('Error fetching user:', err);
+                setError("Failed to fetch user.");
+            });
         }
     }
 
