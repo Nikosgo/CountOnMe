@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Descriptions, ConfigProvider, Card } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { Descriptions, ConfigProvider, Card, Button } from 'antd';
 import '../../../App.css'
 
+import '../../../Common/Common.css';
 import Header from '../Header/Header.tsx';
 import {fetchUserByEmail} from '../../../Api/UserApi.tsx';
 
 const Profile: React.FC = () => {
 
+    const navigate = useNavigate();
     const userString = sessionStorage.getItem("user");
     const user = userString === null ? null : JSON.parse(userString)
 
@@ -29,7 +32,12 @@ const Profile: React.FC = () => {
                 setUserDetails(item);
             }
         )
-    })
+    });
+
+    const logout = () => {
+        sessionStorage.removeItem("user");
+        navigate("/");
+    }
 
     function maskPassword(password) {
         if (!password || password.length < 2) {
@@ -134,9 +142,10 @@ const Profile: React.FC = () => {
                     styles={descriptionStyles}
                 />  
             </Card>
-            
+            <div className='logout-button-div'>
+                <Button className="logout-button" type="text" onClick={logout} >Logout</Button>
+            </div>
         </ConfigProvider>
-        
     );
 }
 
