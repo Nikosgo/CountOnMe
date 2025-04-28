@@ -23,3 +23,5 @@ export const TRANSACTION_URL = {
     TRANSACTION_WEEK: TRANSACTIONS_BASE_URL + "/transactionsWeek",
     TRANSACTION_MONTH: TRANSACTIONS_BASE_URL + "/transactionsMonth"
 };
+
+export const CONVERSION_URL = "/api/exchange-rate";

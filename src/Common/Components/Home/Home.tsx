@@ -77,31 +77,40 @@ const Home: React.FC = () => {
         } 
         else {
             // fetch top 3 expenses categories 
-            fetchTop3ExpenseCategories(user.email).then(
-                response => {
-                    const CategoryItem = response.data.map((res) => ({
-                        value: res.category,
-                        label: (<ExpenseCategoryIcon category={res.category}/>),
-                        price: res.amount
-                    }))
-                    setExpenseItems(CategoryItem);
-                }
-            );
+            updateExpensePanel(user.email)
             
             // fetch top 3 income categories 
-            fetchTop3IncomeCategories(user.email).then(
-                response => {
-                    const CategoryItem = response.data.map((res) => ({
-                        value: res.category,
-                        label: (<IncomeCategoryIcon category={res.category}/>),
-                        price: res.amount
-                    }))
-                    setIncomeItems(CategoryItem);
-                }
-            )
+            updateIncomePanel(user.email)
+            
             updateTransactionTables(user);
         }
     }, []);
+
+    const updateExpensePanel = async (email) => {
+        fetchTop3ExpenseCategories(email).then(
+            response => {
+                const CategoryItem = response.data.map((res) => ({
+                    value: res.category,
+                    label: (<ExpenseCategoryIcon category={res.category}/>),
+                    price: res.amount
+                }))
+                setExpenseItems(CategoryItem);
+            }
+        );
+    }
+
+    const updateIncomePanel = async (email) => {
+        fetchTop3IncomeCategories(email).then(
+            response => {
+                const CategoryItem = response.data.map((res) => ({
+                    value: res.category,
+                    label: (<IncomeCategoryIcon category={res.category}/>),
+                    price: res.amount
+                }))
+                setIncomeItems(CategoryItem);
+            }
+        )
+    }
 
     const updateTransactionTables = async (user) => {
         // fetch all transactions filtered by today
@@ -185,6 +194,7 @@ const Home: React.FC = () => {
         else {
             alert("Uploaded new expense")
             setIsExpenseModalOpen(false);
+            updateExpensePanel(user.email)
             updateTransactionTables(user)
         }
     };
@@ -220,6 +230,7 @@ const Home: React.FC = () => {
         else {
             alert("Uploaded new income")
             setIsIncomeModalOpen(false);
+            updateIncomePanel(user.email)
             updateTransactionTables(user)
         }
     };
