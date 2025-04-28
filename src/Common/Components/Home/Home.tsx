@@ -87,6 +87,7 @@ const Home: React.FC = () => {
                     setExpenseItems(CategoryItem);
                 }
             );
+            
             // fetch top 3 income categories 
             fetchTop3IncomeCategories(user.email).then(
                 response => {
@@ -98,57 +99,60 @@ const Home: React.FC = () => {
                     setIncomeItems(CategoryItem);
                 }
             )
-
-            // fetch all transactions filtered by today
-            fetchTransactionsToday(user.email).then (
-                response => {
-                    const transactionArr = response.data;
-                    let transactions = transactionArr.map((res, index) => ({
-                        key: index,
-                        date: res.date,
-                        category: res.type === "income" ? (<IncomeCategoryIcon category={res.category}/>) : <ExpenseCategoryIcon category={res.category}/>,
-                        description: res.description,
-                        amount: res.amount,
-                        type: res.type,
-                    }))
-                    setTransactionItemsToday(transactions);
-                    setTransactionItems(transactions);
-                }
-            )
-            
-            // fetch all transactions filtered by this week
-            fetchTransactionsWeek(user.email).then (
-                response => {
-                    const transactionArr = response.data;
-                    let transactions = transactionArr.map((res, index) => ({
-                        key: index,
-                        date: res.date,
-                        category: res.type === "income" ? (<IncomeCategoryIcon category={res.category}/>) : <ExpenseCategoryIcon category={res.category}/>,
-                        description: res.description,
-                        amount: res.amount,
-                        type: res.type,
-                    }))
-                    setTransactionItemsWeek(transactions);
-                }
-            )
-
-            // fetch all transactions filtered by this month
-            fetchTransactionsMonth(user.email).then (
-                response => {
-                    const transactionArr = response.data;
-                    let transactions = transactionArr.map((res, index) => ({
-                        key: index,
-                        date: res.date,
-                        category: res.type === "income" ? (<IncomeCategoryIcon category={res.category}/>) : <ExpenseCategoryIcon category={res.category}/>,
-                        description: res.description,
-                        amount: res.amount,
-                        type: res.type,
-                    }))
-                    setTransactionItemsMonth(transactions);
-                }
-            )
+            updateTransactionTables(user);
         }
     }, []);
+
+    const updateTransactionTables = async (user) => {
+        // fetch all transactions filtered by today
+        fetchTransactionsToday(user.email).then (
+            response => {
+                const transactionArr = response.data;
+                let transactions = transactionArr.map((res, index) => ({
+                    key: index,
+                    date: res.date,
+                    category: res.type === "income" ? (<IncomeCategoryIcon category={res.category}/>) : <ExpenseCategoryIcon category={res.category}/>,
+                    description: res.description,
+                    amount: res.amount,
+                    type: res.type,
+                }))
+                setTransactionItemsToday(transactions);
+                setTransactionItems(transactions);
+            }
+        )
+        
+        // fetch all transactions filtered by this week
+        fetchTransactionsWeek(user.email).then (
+            response => {
+                const transactionArr = response.data;
+                let transactions = transactionArr.map((res, index) => ({
+                    key: index,
+                    date: res.date,
+                    category: res.type === "income" ? (<IncomeCategoryIcon category={res.category}/>) : <ExpenseCategoryIcon category={res.category}/>,
+                    description: res.description,
+                    amount: res.amount,
+                    type: res.type,
+                }))
+                setTransactionItemsWeek(transactions);
+            }
+        )
+
+        // fetch all transactions filtered by this month
+        fetchTransactionsMonth(user.email).then (
+            response => {
+                const transactionArr = response.data;
+                let transactions = transactionArr.map((res, index) => ({
+                    key: index,
+                    date: res.date,
+                    category: res.type === "income" ? (<IncomeCategoryIcon category={res.category}/>) : <ExpenseCategoryIcon category={res.category}/>,
+                    description: res.description,
+                    amount: res.amount,
+                    type: res.type,
+                }))
+                setTransactionItemsMonth(transactions);
+            }
+        )
+    }
 
     const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
     const [expenseTransactionDetails, setExpenseTransactionDetails] = useState<InsertTransaction>();
@@ -181,6 +185,7 @@ const Home: React.FC = () => {
         else {
             alert("Uploaded new expense")
             setIsExpenseModalOpen(false);
+            updateTransactionTables(user)
         }
     };
 
@@ -215,6 +220,7 @@ const Home: React.FC = () => {
         else {
             alert("Uploaded new income")
             setIsIncomeModalOpen(false);
+            updateTransactionTables(user)
         }
     };
 
