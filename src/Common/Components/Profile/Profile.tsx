@@ -1,35 +1,66 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Descriptions, ConfigProvider, Card } from 'antd';
 import '../../../App.css'
 
 import Header from '../Header/Header.tsx';
+import {fetchUserByEmail} from '../../../Api/UserApi.tsx';
 
 const Profile: React.FC = () => {
+
+    const userString = sessionStorage.getItem("user");
+    const user = userString === null ? null : JSON.parse(userString)
+
+    type UserDetails = {
+        name: string;
+        email: string;
+        password: string;
+    };
+
+    const [userDetails, setUserDetails] = useState<UserDetails>();
+
+    useEffect(() => {
+        fetchUserByEmail(user.email).then(
+            response => {
+                const item = {
+                    name: response.data.name,
+                    email: response.data.email,
+                    password: response.data.password
+                }
+                setUserDetails(item);
+            }
+        )
+    })
+
+    function maskPassword(password) {
+        if (!password || password.length < 2) {
+            return password; // nothing to mask or too short to mask
+          }
+        
+          const firstChar = password[0];
+          const lastChar = password[password.length - 1];
+          const maskedSection = '*'.repeat(password.length - 2);
+        
+          return `${firstChar}${maskedSection}${lastChar}`;
+    }
 
     const UserInfo = [
         {
             key: 1,
             label: "Name",
             span: 4,
-            children: "John Doe",
+            children: userDetails?.name,
         },
         {
             key: 2,
             label: "Email",
             span: 4,
-            children: "johndoe@email.com",
-        },
-        {
-            key: 3,
-            label: "Username",
-            span: 4,
-            children: "JohnDoe123",
+            children: userDetails?.email,
         },
         {
             key: 4,
             label: "Password",
             span: 4,
-            children: "1amJohnD0e",
+            children: maskPassword(userDetails?.password),
         },
     ];
 
