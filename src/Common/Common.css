@@ -39,6 +39,26 @@
     margin-top: 100px;
 }
 
+.logout-button-div {
+    margin-right: 50px;
+    width: 50%;
+    float: right;
+    text-align: right;
+}
+
+.logout-button{
+    align-self: flex-end;
+    color: white;
+    background-color: #022b3a;
+    border-color: #e9ebf0;
+    font-family:'Arial';
+    padding: 30px;
+    width: 50%;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-weight: 800;
+}
+
 @media (max-height: 600px) {
     .login-card{
         max-width: 100%;
