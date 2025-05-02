@@ -16,7 +16,7 @@ env:
   CONTAINER_NAME: docker
 
 jobs:    
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     outputs:
       image: ${{ steps.build-image.outputs.image }}
