@@ -11,11 +11,11 @@ COPY package*.json ./
 COPY . .
 
 # Install dependencies
-RUN npm install -g serve
-RUN npm install
+RUN npm install -g serve --silent
+RUN npm install --silent
 
 # Build the app
-RUN npm run build
+RUN npm run build --silent
 
 # Expose port 3000 for nginx
 EXPOSE 3000
