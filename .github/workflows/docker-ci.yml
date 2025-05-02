@@ -13,7 +13,7 @@ env:
   ECS_SERVICE: CountOnMe-Frontend-Service
   ECS_CLUSTER: CountOnMe
   ECS_TASK_DEFINITION: aws/taskDefinition.json
-  CONTAINER_NAME: docker
+  CONTAINER_NAME: CountOnMe-Frontend
 
 jobs:    
   build:
