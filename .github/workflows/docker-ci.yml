@@ -8,8 +8,8 @@ on:
 env:
   AWS_REGION: ap-southeast-1
   ECR_REGISTRY_URL: 730335643718.dkr.ecr.ap-southeast-1.amazonaws.com
-  ECR_REPOSITORY: countonme-react
-  ECS_SERVICE: CountOnMe-React-service-3y5vcgqp
+  ECR_REPOSITORY: count-on-me/frontend
+  ECS_SERVICE: CountOnMe-Frontend-Service
   ECS_CLUSTER: CountOnMe
   ECS_TASK_DEFINITION: aws/taskDefinition.json
   CONTAINER_NAME: docker
