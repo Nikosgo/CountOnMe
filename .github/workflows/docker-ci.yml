@@ -10,7 +10,7 @@ env:
   AWS_REGION: ap-southeast-1
   ECR_REGISTRY_URL: 730335643718.dkr.ecr.ap-southeast-1.amazonaws.com
   ECR_REPOSITORY: count-on-me/frontend
-  ECS_SERVICE: CountOnMe-Frontend-Service
+  ECS_SERVICE: CountOnMe-Frontend-service-qw629ajf
   ECS_CLUSTER: CountOnMe
   ECS_TASK_DEFINITION: aws/taskDefinition.json
   CONTAINER_NAME: CountOnMe-Frontend
