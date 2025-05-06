@@ -17,9 +17,6 @@ RUN npm install
 # Build the app
 RUN npm run build --silent
 
-# Change Tomcat's internal port
-RUN sed -i 's/port="8080"/port="3000"/' /usr/local/tomcat/conf/server.xml
-
 # Expose port 3000 for nginx
 EXPOSE 3000
 
