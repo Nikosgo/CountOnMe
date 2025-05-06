@@ -16,7 +16,7 @@ env:
   
   ECR_REPOSITORY: count-on-me/frontend
   ECS_TASK_DEFINITION: aws/taskDefinition.json
-  CONTAINER_NAME: CountOnMe-Server-Frontend
+  CONTAINER_NAME: CountOnMe-Frontend
 
 jobs:
   build-frontend:
