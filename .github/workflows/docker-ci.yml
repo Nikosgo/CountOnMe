@@ -8,9 +8,8 @@ on:
 
 env:
   AWS_REGION: ap-southeast-1
-  ECS_CLUSTER: CountOnMe
   ECR_REGISTRY_URL: 730335643718.dkr.ecr.ap-southeast-1.amazonaws.com
-
+  
   PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
   HOST: ${{ secrets.AWS_EC2_HOST }}
   USER: ${{ secrets.AWS_EC2_USER }}
@@ -25,7 +24,7 @@ jobs:
     outputs:
       image: ${{ steps.build-image.outputs.image }}
       image_tag: ${{ steps.build-image.outputs.image_tag }}
-
+      
     steps:
     
     - name: Configure AWS credentials

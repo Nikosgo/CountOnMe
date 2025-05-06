@@ -1,13 +1,13 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:ap-southeast-1:730335643718:task-definition/CountOnMe-React:5",
+    "taskDefinitionArn": "arn:aws:ecs:ap-southeast-1:730335643718:task-definition/CountOnMe-Frontend:1",
     "containerDefinitions": [
         {
-            "name": "docker",
-            "image": "730335643718.dkr.ecr.ap-southeast-1.amazonaws.com/countonme-react",
+            "name": "CountOnMe-Frontend",
+            "image": "730335643718.dkr.ecr.ap-southeast-1.amazonaws.com/count-on-me/frontend",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "docker-3000-tcp",
+                    "name": "countonme-frontend-3000-tcp",
                     "containerPort": 3000,
                     "hostPort": 3000,
                     "protocol": "tcp",
@@ -23,7 +23,7 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/ecs/CountOnMe-React",
+                    "awslogs-group": "/ecs/CountOnMe-Frontend",
                     "mode": "non-blocking",
                     "awslogs-create-group": "true",
                     "max-buffer-size": "25m",
@@ -35,10 +35,10 @@
             "systemControls": []
         }
     ],
-    "family": "CountOnMe-React",
+    "family": "CountOnMe-Frontend",
     "executionRoleArn": "arn:aws:iam::730335643718:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 5,
+    "revision": 1,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -84,7 +84,7 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2025-04-27T17:24:30.417Z",
+    "registeredAt": "2025-05-02T15:03:58.432Z",
     "registeredBy": "arn:aws:iam::730335643718:root",
     "enableFaultInjection": false,
     "tags": []
