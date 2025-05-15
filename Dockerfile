@@ -11,8 +11,7 @@ COPY package*.json ./
 COPY . .
 
 # Install dependencies
-RUN npm install -g serve
-RUN npm install
+RUN npm install --silent
 
 # Build the app
 RUN npm run build --silent
