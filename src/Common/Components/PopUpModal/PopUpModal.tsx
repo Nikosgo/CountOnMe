@@ -236,10 +236,11 @@ const PopUpModal = ({title, categories, isModalOpen, handleCancel, onTransaction
                                 color: '#f9bcb9',
                                 backgroundColor: '#fff',
                                 borderRadius: '5px',
-                                fontSize: '18px'
+                                fontSize: '18px',
+                                textTransform:'titlecase'
                             }}
                             dropdownStyle={{
-                                fontSize: '18px'
+                                fontSize: '18px',
                             }}
                         />
 
