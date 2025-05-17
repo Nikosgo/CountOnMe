@@ -1,8 +1,9 @@
 // uncomment to test locally
-const API_BASE_URL = 'http://localhost:8080';
-// const API_BASE_URL = "http://54.169.139.191:8080"
-export const TRANSACTIONS_BASE_URL = API_BASE_URL + "/transactions";
-export const USERS_BASE_URL = API_BASE_URL + "/users";
+// const API_BASE_URL = 'http://localhost:8080';
+const API_TRANSACTIONS_BASE_URL = "http://18.141.174.174:8080"
+const API_USERS_BASE_URL = "http://18.141.174.174:8081"
+export const TRANSACTIONS_BASE_URL = API_TRANSACTIONS_BASE_URL + "/transactions";
+export const USERS_BASE_URL = API_USERS_BASE_URL + "/users";
 
 export const USER_API = {
     BASE_URL: USERS_BASE_URL,
