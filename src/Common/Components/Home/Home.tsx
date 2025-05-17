@@ -2,8 +2,6 @@ import React, { useState }  from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { IoGameControllerOutline } from 'react-icons/io5';
-
 import '../../../Common/Common.css';
 
 import Header from '../Header/Header.tsx';
@@ -17,7 +15,7 @@ import IncomeCategoryIcon from '../Icons/IncomeCategoryIcon.tsx'
 
 import {
     postNewTransaction,
-    fetchTransactionsByUser, fetchTop3ExpenseCategories, fetchTop3IncomeCategories,
+    fetchTop3ExpenseCategories, fetchTop3IncomeCategories,
     fetchTransactionsToday, fetchTransactionsWeek, fetchTransactionsMonth
 } from '../../../Api/TransactionsApi.tsx';
 
@@ -48,6 +46,23 @@ const Home: React.FC = () => {
         user: string,
         date: Date
     };
+
+    const expenseCategories = [
+        {value: "Food"},
+        {value: "Drinks"},
+        {value: "Shopping"},
+        {value: "Transport"},
+        {value: "Play"},
+        {value: "Life"},
+        {value: "Others"}
+    ]
+
+    const incomeCategories = [
+        {value: "Salary"},
+        {value: "Savings"},
+        {value: "Investment"},
+        {value: "Others"}
+    ]
 
     const transactionTabList = [
         {
@@ -94,6 +109,30 @@ const Home: React.FC = () => {
                     label: (<ExpenseCategoryIcon category={res.category}/>),
                     price: res.amount
                 }))
+                if(CategoryItem.length === 1) {
+                    const extra = expenseCategories
+                        .filter((cat) => (cat.value !== CategoryItem[0].value))
+                        .slice(0,2)
+                        .map((cat) => ({
+                            value: cat.value,
+                            label: (<ExpenseCategoryIcon category={cat.value}/>),
+                            price: 0
+                        }))
+                    CategoryItem.push(extra[0]);
+                    CategoryItem.push(extra[1]);
+                }
+                else if(CategoryItem.length === 2) {
+                    const extra = expenseCategories
+                        .filter((cat) => (cat.value !== CategoryItem[0].value && cat.value !== CategoryItem[1].value))
+                        .slice(0,2)
+                        .map((cat) => ({
+                            value: cat.value,
+                            label: (<ExpenseCategoryIcon category={cat.value}/>),
+                            price: 0
+                        }))
+                    CategoryItem.push(extra[0]);
+                }
+
                 setExpenseItems(CategoryItem);
             }
         );
@@ -102,11 +141,35 @@ const Home: React.FC = () => {
     const updateIncomePanel = async (email) => {
         fetchTop3IncomeCategories(email).then(
             response => {
+
                 const CategoryItem = response.data.map((res) => ({
                     value: res.category,
                     label: (<IncomeCategoryIcon category={res.category}/>),
                     price: res.amount
                 }))
+                if(CategoryItem.length === 1) {
+                    const extra = incomeCategories
+                        .filter((cat) => (cat.value !== CategoryItem[0].value))
+                        .slice(0,2)
+                        .map((cat) => ({
+                            value: cat.value,
+                            label: (<IncomeCategoryIcon category={cat.value}/>),
+                            price: 0
+                        }))
+                    CategoryItem.push(extra[0]);
+                    CategoryItem.push(extra[1]);
+                }
+                else if(CategoryItem.length === 2) {
+                    const extra = incomeCategories
+                        .filter((cat) => (cat.value !== CategoryItem[0].value && cat.value !== CategoryItem[1].value))
+                        .slice(0,2)
+                        .map((cat) => ({
+                            value: cat.value,
+                            label: (<IncomeCategoryIcon category={cat.value}/>),
+                            price: 0
+                        }))
+                    CategoryItem.push(extra[0]);
+                }
                 setIncomeItems(CategoryItem);
             }
         )
@@ -285,7 +348,7 @@ const Home: React.FC = () => {
                     title="Expenses" 
                     isModalOpen={isExpenseModalOpen}
                     handleCancel={handleExpenseCancel}
-                    categories={expenseItems}
+                    categories={expenseCategories}
                     onTransactionData={handleExpenseTransactionData}
                 />
 
@@ -294,7 +357,7 @@ const Home: React.FC = () => {
                     isModalOpen={isIncomeModalOpen}
                     handleOk={handleIncomeOk}
                     handleCancel={handleIncomeCancel}
-                    categories={incomeItems}
+                    categories={incomeCategories}
                     onTransactionData={handleIncomeTransactionData}
                 />
 
